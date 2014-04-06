@@ -17,13 +17,13 @@ Video
 
 Path of the input file.
 
-C:\Users\Name\Videos\chinese cartoon.mkv
+C:\Users\Name\Videos\chinesecartoon.mkv
 
 Subtitles
 
 Path of the subtitle file. Currently only supports .ass
 
-C:\Users\Name\Videos\chinese cartoon.ass
+C:\Users\Name\Videos\chinesecartoon.ass
 
 Size limit
 
