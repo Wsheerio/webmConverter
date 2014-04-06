@@ -11,19 +11,18 @@ Place webm.exe and the fonts folder in the same directory as ffmpeg.exe
 
 Documentation
 =========
-The browse buttons still don't do anything, you'll have to manually enter paths.
 
 Video
 
 Path of the input file.
 
-C:\Users\Name\Videos\chinesecartoon.mkv
+C:\Users\Name\Videos\chinese cartoon.mkv
 
 Subtitles
 
-Path of the subtitle file. Currently only supports .ass
+Path of the subtitle file. Currently only supports .ass. Leave blank if you don't want subtitles.
 
-C:\Users\Name\Videos\chinesecartoon.ass
+C:\Users\Name\Videos\chinese cartoon.ass
 
 Size limit
 
@@ -33,7 +32,7 @@ The maximum size allowed for the output in megabytes.
 
 Resolution
 
-The resolution of the output file. If your webm looks terrible or you can't get the size low enough with the adjust value, lower this.
+The resolution of the output file. If your webm looks terrible or you can't get the size low enough with the adjust value, lower this. Leave blank if you don't want to change the resolution.
 
 640x360, 853x480, 960x540, 1280x720, 1920x1080
 
@@ -51,16 +50,16 @@ Enter the amount of physical cores you have. If you don't know what this is just
 
 Sound
 
-Enter the bitrate for audio in kilobits.
+Enter the bitrate for audio in kilobits. Leave blank if you don't want sound.
 
 32, 192
 
 Adjust
 
-Getting the right file size doesn't always work. Start off by entering 0 in this box, if your file is too big lower it, if your file is too small raise it.
+Getting the right file size doesn't always work. If your file is too big lower it, if your file is too small raise it.
 
 Output
 
 This is where you put your output file name.
 
-thefuture.webm
+C:\Users\Name\Videos\thefuture.webm
