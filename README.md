@@ -5,7 +5,7 @@ Downloads
 =========
 [This](https://github.com/Wsheerio/webmConverter/raw/master/Executable/webmConverter.zip) should be a build of the most recent version.
 
-You're going to need [ffmpeg](http://ffmpeg.zeranoe.com/builds/)
+You're going to need [ffmpeg](http://ffmpeg.zeranoe.com/builds/), I recommend grabbing one of the static builds.
 
 Place webm.exe and the fonts folder in the same directory as ffmpeg.exe
 
