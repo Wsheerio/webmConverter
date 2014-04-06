@@ -3,7 +3,7 @@ webmConverter
 moot <3
 Downloads
 =========
-[This](https://github.com/Wsheerio/webmConverter/raw/master/Executable/webmConverter.zip) should be a build of the most recent version.
+[This](https://github.com/Wsheerio/webmConverter/archive/1.1.zip) should be a build of the most recent version.
 
 You're going to need [ffmpeg](http://ffmpeg.zeranoe.com/builds/), I recommend grabbing one of the static builds.
 
@@ -11,7 +11,7 @@ Place webm.exe and the fonts folder in the same directory as ffmpeg.exe
 
 Documentation
 =========
-The browe buttons still don't do anything, you'll have to manually enter paths.
+The browse buttons still don't do anything, you'll have to manually enter paths.
 
 Video
 
