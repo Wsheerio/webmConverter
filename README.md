@@ -33,7 +33,7 @@ The maximum size allowed for the output in megabytes.
 
 Resolution
 
-The resolution of the output file. If your webm looks terrible lower this.
+The resolution of the output file. If your webm looks terrible or you can't get the size low enough with the adjust value, lower this.
 
 640x360, 853x480, 960x540, 1280x720, 1920x1080
 
