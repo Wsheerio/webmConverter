@@ -88,6 +88,7 @@
             this.button1.TabIndex = 1;
             this.button1.Text = "Video";
             this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // label1
             // 
@@ -131,6 +132,7 @@
             this.textBox5.Name = "textBox5";
             this.textBox5.Size = new System.Drawing.Size(100, 20);
             this.textBox5.TabIndex = 6;
+            this.textBox5.Text = "00:00:00";
             // 
             // textBox6
             // 
@@ -147,6 +149,7 @@
             this.button2.TabIndex = 3;
             this.button2.Text = "Subtitles";
             this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
             // button3
             // 
@@ -189,6 +192,7 @@
             this.button4.TabIndex = 12;
             this.button4.Text = "Output";
             this.button4.UseVisualStyleBackColor = true;
+            this.button4.Click += new System.EventHandler(this.button4_Click);
             // 
             // textBox9
             // 
@@ -196,6 +200,7 @@
             this.textBox9.Name = "textBox9";
             this.textBox9.Size = new System.Drawing.Size(100, 20);
             this.textBox9.TabIndex = 10;
+            this.textBox9.Text = "0";
             // 
             // label6
             // 
