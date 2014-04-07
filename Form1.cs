@@ -53,11 +53,11 @@ namespace webm
             }
             if (textBox8.Text != "")
             {
-                command += " -ac 1 -b:v " + Convert.ToString(((Convert.ToDouble(textBox3.Text) * 8192) / time) + fixer - Convert.ToDouble(textBox8.Text)) + "k -b:a " + textBox8.Text + "k";
+                command += " -ac 1 -b:v " + Convert.ToString(((Convert.ToDouble(textBox3.Text) * 8192 + fixer) / time) - Convert.ToDouble(textBox8.Text)) + "k -b:a " + textBox8.Text + "k";
             }
             else
             {
-                command += " -an -b:v " + Convert.ToString(((Convert.ToDouble(textBox3.Text) * 8192) / time) + fixer) + "k";
+                command += " -an -b:v " + Convert.ToString((Convert.ToDouble(textBox3.Text) * 8192 + fixer) / time) + "k";
             }
             if (textBox7.Text != "")
             {
