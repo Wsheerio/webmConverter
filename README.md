@@ -2,7 +2,9 @@ webmConverter
 =========
 moot <3
 
-![Screenshot](http://a.pomf.se/yjjxmz.png)
+The next release is going to be error catching and fixing the terrible preview GUI I threw together.
+
+![Screenshot](http://a.pomf.se/esxeab.png)
 Downloads
 =========
 [This](https://github.com/Wsheerio/webmConverter/raw/master/Executable/webmConverter.zip) should be a build of the most recent version.
@@ -32,9 +34,10 @@ Path of the subtitle file. Currently only supports .ass. Leave blank if you don'
 
 Start Time
 
-Enter the start time in HH:MM:SS, defaults to 00:00:00
+Enter the start time in seconds, defaults to 0.
 
-    00:01:30
+    0
+    44
 
 Duration
 
@@ -67,7 +70,7 @@ Enter the bitrate for audio in kilobits. Leave blank if you don't want sound.
 
 Crop
 
-This lets you crop a video\. The command looks like this, Width:Height:X:Y. Width is the width of the rectangle being cropped, height is the height, x and y are the coordinates of the rectangle being cropped.
+This lets you crop a video\. The command looks like this, Width:Height:X:Y. Width is the width of the rectangle being cropped, height is the height, x and y are the coordinates of the rectangle being cropped. in_w and in_h grab the videos resolution.
 
     500:500:10:10
 
