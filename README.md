@@ -67,6 +67,10 @@ This lets you crop a video\. The command looks like this, Width:Height:X:Y. Widt
 
     500:500:10:10
 
+Advanced
+
+Let's you use more commands. You can't use anything with -vf right now, I'll fix that in a later version
+
 Output
 
 This is where you put your output file name.
