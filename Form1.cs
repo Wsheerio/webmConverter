@@ -34,7 +34,7 @@ namespace webm
                 trackBar2.Value = trackBar1.Value;
             }
             textBox5.Text = Convert.ToString(Convert.ToDouble(trackBar1.Value) / 24);
-            textBox6.Text = Convert.ToString(Convert.ToDouble(trackBar2.Value - trackBar1.Value) / 24);
+            textBox6.Text = Convert.ToString((Convert.ToDouble(trackBar2.Value) - Convert.ToDouble(trackBar1.Value)) / 24);
             previewImage(Convert.ToDouble(trackBar1.Value) / 24);
         }
         private void trackBar2_ValueChanged(object sender, EventArgs e)
@@ -44,8 +44,8 @@ namespace webm
                 trackBar1.Value = trackBar2.Value;
             }
             textBox5.Text = Convert.ToString(Convert.ToDouble(trackBar1.Value) / 24);
-            textBox6.Text = Convert.ToString(Convert.ToDouble(trackBar2.Value - trackBar1.Value) /24);
-            previewImage(Convert.ToDouble(trackBar2.Value) / 24);
+            textBox6.Text = Convert.ToString((Convert.ToDouble(trackBar2.Value) - Convert.ToDouble(trackBar1.Value)) / 24);
+            previewImage((Convert.ToDouble(trackBar2.Value) - Convert.ToDouble(trackBar1.Value)) / 24 - 0.04);
         }
         private void previewImage(double time)
         {
