@@ -15,6 +15,7 @@ namespace webm
     {
         string command;
         double fixer = 0;
+        double previewTime = 0;
         public Form1()
         {
             InitializeComponent();
@@ -25,7 +26,7 @@ namespace webm
         }
         private void button3_Click(object sender, EventArgs e)
         {
-            command = "-y -i " + "\"" + textBox1.Text + "\"" + " -ss " + textBox5.Text + " -t " + textBox6.Text;
+            command = "-y -i \"" + textBox1.Text + "\" -ss " + textBox5.Text + " -t " + textBox6.Text;
             if (textBox4.Text != "")
             {
                 command += " -vf scale=" + textBox4.Text;
@@ -86,6 +87,7 @@ namespace webm
             {
                 textBox1.Text = browse.FileName;
             }
+            loadPrev();
         }
 
         private void button2_Click(object sender, EventArgs e)
@@ -104,7 +106,6 @@ namespace webm
                 textBox2.Text = browse.FileName;
             }
         }
-
         private void button4_Click(object sender, EventArgs e)
         {
             SaveFileDialog browse = new SaveFileDialog();
@@ -147,12 +148,53 @@ namespace webm
                 {
                     List<string> lines = new List<string>();
                     foreach (string path in rawFiles)
-                    {
+                    { 
                         lines.Add(path);
                     }
                     textBox2.Text = lines[0];
                 }
             }
+        }
+        private void button5_Click(object sender, EventArgs e)
+        {
+            previewTime += Math.Round(Convert.ToDouble(textBox11.Text), 2);
+            loadPrev();
+        }
+        private void loadPrev()
+        {
+            pictureBox1.Image = null;
+            GC.Collect();
+            GC.WaitForPendingFinalizers();
+            GC.WaitForFullGCComplete();
+            Process proc = new Process();
+            proc.StartInfo.FileName = "ffmpeg";
+            proc.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
+            proc.StartInfo.Arguments = "-y -ss " + Convert.ToString(previewTime) + " -i \"" + textBox1.Text + "\" -r 1 -f image2 -vframes 1 -vf crop=" + textBox9.Text + " preview.png";
+            proc.Start();
+            proc.WaitForExit();
+            pictureBox1.Image = new Bitmap("preview.png");
+            try
+            {
+                textBox13.Text = Convert.ToString(previewTime - Convert.ToDouble(textBox5.Text));
+            }
+            catch
+            {
+                textBox13.Text = Convert.ToString(previewTime);
+            }
+        }
+        private void button6_Click(object sender, EventArgs e)
+        {
+            previewTime -= Math.Round(Convert.ToDouble(textBox11.Text), 2);
+            loadPrev();
+        }
+        private void button7_Click(object sender, EventArgs e)
+        {
+            previewTime = Math.Round(Convert.ToDouble(textBox12.Text), 2);
+            loadPrev();
+        }
+        private void button8_Click(object sender, EventArgs e)
+        {
+            loadPrev();
         }
     }
 }

@@ -49,7 +49,16 @@
             this.label6 = new System.Windows.Forms.Label();
             this.textBox10 = new System.Windows.Forms.TextBox();
             this.label7 = new System.Windows.Forms.Label();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.button5 = new System.Windows.Forms.Button();
+            this.textBox11 = new System.Windows.Forms.TextBox();
+            this.button6 = new System.Windows.Forms.Button();
+            this.textBox12 = new System.Windows.Forms.TextBox();
+            this.button7 = new System.Windows.Forms.Button();
+            this.button8 = new System.Windows.Forms.Button();
+            this.textBox13 = new System.Windows.Forms.TextBox();
             this.label8 = new System.Windows.Forms.Label();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
             // textBox1
@@ -136,7 +145,7 @@
             this.textBox5.Name = "textBox5";
             this.textBox5.Size = new System.Drawing.Size(100, 20);
             this.textBox5.TabIndex = 4;
-            this.textBox5.Text = "00:00:00";
+            this.textBox5.Text = "0";
             // 
             // textBox6
             // 
@@ -157,7 +166,7 @@
             // 
             // button3
             // 
-            this.button3.Location = new System.Drawing.Point(117, 277);
+            this.button3.Location = new System.Drawing.Point(12, 272);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(75, 23);
             this.button3.TabIndex = 13;
@@ -204,6 +213,7 @@
             this.textBox9.Name = "textBox9";
             this.textBox9.Size = new System.Drawing.Size(100, 20);
             this.textBox9.TabIndex = 9;
+            this.textBox9.Text = "in_w:in_h:0:0";
             // 
             // label6
             // 
@@ -230,21 +240,100 @@
             this.label7.TabIndex = 16;
             this.label7.Text = "Sound";
             // 
+            // pictureBox1
+            // 
+            this.pictureBox1.Location = new System.Drawing.Point(199, 12);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(353, 198);
+            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBox1.TabIndex = 18;
+            this.pictureBox1.TabStop = false;
+            // 
+            // button5
+            // 
+            this.button5.Location = new System.Drawing.Point(477, 244);
+            this.button5.Name = "button5";
+            this.button5.Size = new System.Drawing.Size(75, 23);
+            this.button5.TabIndex = 18;
+            this.button5.Text = "Forward";
+            this.button5.UseVisualStyleBackColor = true;
+            this.button5.Click += new System.EventHandler(this.button5_Click);
+            // 
+            // textBox11
+            // 
+            this.textBox11.Location = new System.Drawing.Point(280, 246);
+            this.textBox11.Name = "textBox11";
+            this.textBox11.Size = new System.Drawing.Size(191, 20);
+            this.textBox11.TabIndex = 17;
+            this.textBox11.Text = "0.04";
+            // 
+            // button6
+            // 
+            this.button6.Location = new System.Drawing.Point(199, 244);
+            this.button6.Name = "button6";
+            this.button6.Size = new System.Drawing.Size(75, 23);
+            this.button6.TabIndex = 16;
+            this.button6.Text = "Back";
+            this.button6.UseVisualStyleBackColor = true;
+            this.button6.Click += new System.EventHandler(this.button6_Click);
+            // 
+            // textBox12
+            // 
+            this.textBox12.Location = new System.Drawing.Point(199, 220);
+            this.textBox12.Name = "textBox12";
+            this.textBox12.Size = new System.Drawing.Size(272, 20);
+            this.textBox12.TabIndex = 14;
+            // 
+            // button7
+            // 
+            this.button7.Location = new System.Drawing.Point(477, 218);
+            this.button7.Name = "button7";
+            this.button7.Size = new System.Drawing.Size(75, 23);
+            this.button7.TabIndex = 15;
+            this.button7.Text = "To Time";
+            this.button7.UseVisualStyleBackColor = true;
+            this.button7.Click += new System.EventHandler(this.button7_Click);
+            // 
+            // button8
+            // 
+            this.button8.Location = new System.Drawing.Point(477, 271);
+            this.button8.Name = "button8";
+            this.button8.Size = new System.Drawing.Size(75, 23);
+            this.button8.TabIndex = 19;
+            this.button8.Text = "Refresh";
+            this.button8.UseVisualStyleBackColor = true;
+            this.button8.Click += new System.EventHandler(this.button8_Click);
+            // 
+            // textBox13
+            // 
+            this.textBox13.Location = new System.Drawing.Point(280, 273);
+            this.textBox13.Name = "textBox13";
+            this.textBox13.Size = new System.Drawing.Size(118, 20);
+            this.textBox13.TabIndex = 20;
+            // 
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(6, 274);
+            this.label8.Location = new System.Drawing.Point(404, 276);
             this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(105, 26);
-            this.label8.TabIndex = 17;
-            this.label8.Text = "moot, please remove\r\nlength restrictions.";
+            this.label8.Size = new System.Drawing.Size(67, 13);
+            this.label8.TabIndex = 21;
+            this.label8.Text = "Current Time";
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(204, 310);
+            this.ClientSize = new System.Drawing.Size(564, 306);
             this.Controls.Add(this.label8);
+            this.Controls.Add(this.textBox13);
+            this.Controls.Add(this.button8);
+            this.Controls.Add(this.button7);
+            this.Controls.Add(this.textBox12);
+            this.Controls.Add(this.button6);
+            this.Controls.Add(this.textBox11);
+            this.Controls.Add(this.button5);
+            this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.label7);
             this.Controls.Add(this.textBox10);
             this.Controls.Add(this.label6);
@@ -272,6 +361,7 @@
             this.Name = "Form1";
             this.ShowIcon = false;
             this.Text = "webm Converter";
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -300,6 +390,14 @@
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.TextBox textBox10;
         private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.PictureBox pictureBox1;
+        private System.Windows.Forms.Button button5;
+        private System.Windows.Forms.TextBox textBox11;
+        private System.Windows.Forms.Button button6;
+        private System.Windows.Forms.TextBox textBox12;
+        private System.Windows.Forms.Button button7;
+        private System.Windows.Forms.Button button8;
+        private System.Windows.Forms.TextBox textBox13;
         private System.Windows.Forms.Label label8;
     }
 }
