@@ -40,11 +40,15 @@ Duration
 
 Enter the your desired length in seconds.
 
-    54
+    54.123
 
 Size limit
 
 The maximum size allowed for the output in megabytes, defaults to 3.
+
+    1
+    2.5
+    3.12341
 
 Resolution
 
