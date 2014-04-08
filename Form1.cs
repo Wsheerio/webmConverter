@@ -9,13 +9,14 @@ using System.Windows.Forms;
 using System.Diagnostics;
 using System.Text.RegularExpressions;
 using System.IO;
+using System.Timers;
+using System.Threading;
 namespace webm
 {
     public partial class Form1 : Form
     {
         string command;
         double fixer = 0;
-        double previewTime = 0;
         public Form1()
         {
             InitializeComponent();
@@ -23,61 +24,137 @@ namespace webm
             textBox2.DragDrop += new DragEventHandler(textBox2_DragDrop);
             textBox1.DragEnter += new DragEventHandler(MyTextBox_DragEnter);
             textBox2.DragEnter += new DragEventHandler(MyTextBox_DragEnter);
+            trackBar1.ValueChanged += new EventHandler(trackBar1_ValueChanged);
+            trackBar2.ValueChanged += new EventHandler(trackBar2_ValueChanged);
+        }
+        private void trackBar1_ValueChanged(object sender, EventArgs e)
+        {
+            if (trackBar2.Value < trackBar1.Value)
+            {
+                trackBar2.Value = trackBar1.Value;
+            }
+            textBox5.Text = Convert.ToString(Convert.ToDouble(trackBar1.Value) / 24);
+            textBox6.Text = Convert.ToString(Convert.ToDouble(trackBar2.Value - trackBar1.Value) / 24);
+            previewImage(Convert.ToDouble(trackBar1.Value) / 24);
+        }
+        private void trackBar2_ValueChanged(object sender, EventArgs e)
+        {
+            if (trackBar1.Value > trackBar2.Value)
+            {
+                trackBar1.Value = trackBar2.Value;
+            }
+            textBox5.Text = Convert.ToString(Convert.ToDouble(trackBar1.Value) / 24);
+            textBox6.Text = Convert.ToString(Convert.ToDouble(trackBar2.Value - trackBar1.Value) /24);
+            previewImage(Convert.ToDouble(trackBar2.Value) / 24);
+        }
+        private void previewImage(double time)
+        {
+            pictureBox1.Image = null;
+            GC.Collect();
+            GC.WaitForFullGCComplete();
+            Process imgPre = new Process();
+            imgPre.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
+            imgPre.StartInfo.FileName = "ffmpeg";
+            imgPre.StartInfo.Arguments = "-y -ss " + Convert.ToString(time) + " -i \"" + textBox1.Text + "\" -vf crop=" + textBox9.Text + " -f image2 -vframes 1 preview.png";
+            imgPre.Start();
+            imgPre.WaitForExit();
+            pictureBox1.Image = new Bitmap("preview.png");
         }
         private void button3_Click(object sender, EventArgs e)
         {
-            command = "-y -i \"" + textBox1.Text + "\" -ss " + textBox5.Text + " -t " + textBox6.Text;
-            if (textBox4.Text != "")
+            if (Convert.ToInt32(textBox15.Text) <= 0)
             {
-                command += " -vf scale=" + textBox4.Text;
-            }
-            if (textBox2.Text != "")
-            {
-                string[] noEscape = Regex.Split(textBox2.Text, string.Empty);
-                for (int i = 0; i < noEscape.Length; i++)
-                {
-                    if (noEscape[i] == "\\")
-                    {
-                        noEscape[i] = "\\\\\\\\";
-                    }
-                    if (noEscape[i] == ":")
-                    {
-                        noEscape[i] = "\\\\:";
-                    }
-                }
-                command += ",\"ass=";
-                for (int i = 0; i < noEscape.Length; i++)
-                {
-                    command += noEscape[i];
-                }
-                command += "\"";
-            }
-            if (textBox9.Text != "")
-            {
-                command += ",crop=" + textBox9.Text;
-            }
-            if (textBox8.Text != "")
-            {
-                command += " -ac 1 -b:v " + Convert.ToString(((Convert.ToDouble(textBox3.Text) * 8192 - Convert.ToDouble(textBox8.Text) * Convert.ToDouble(textBox3.Text)) / Convert.ToDouble(textBox6.Text)) + (fixer * 8 / Convert.ToDouble(textBox6.Text))) + "k -b:a " + textBox8.Text + "k";
+                betterThanBefore(100);
             }
             else
             {
-                command += " -an -b:v " + Convert.ToString(((Convert.ToDouble(textBox3.Text) * 8192) / Convert.ToDouble(textBox6.Text)) + (fixer * 8 / Convert.ToDouble(textBox6.Text))) + "k";
+                betterThanBefore(2 * Convert.ToInt32(textBox15.Text));
             }
-            command += " " + textBox7.Text;
-            command += " -threads " + Convert.ToString(Environment.ProcessorCount) + " -quality best -cpu-used 0 -c:v libvpx -c:a libvorbis -slices 8 -auto-alt-ref 1 -lag-in-frames 25 -pass ";
-            Process proc = new Process();
-            proc.StartInfo.FileName = "ffmpeg";
-            proc.StartInfo.Arguments = command + "1 " + "\"" + textBox10.Text + "\"";
-            proc.Start();
-            proc.WaitForExit();
-            proc = new Process();
-            proc.StartInfo.FileName = "ffmpeg";
-            proc.StartInfo.Arguments = command + "2 " + "\"" + textBox10.Text + "\"";
-            proc.Start();
-            proc.WaitForExit();
-            System.IO.File.Delete("ffmpeg2pass-0.log");
-            fixer += (Convert.ToDouble(textBox3.Text) * 1024 * 1024 - new FileInfo(textBox10.Text).Length) / 1024;
+        }
+        private void betterThanBefore(int loop)
+        {
+            for (int i = 0; i < loop * 2; i++)
+            {
+                command = "-threads " + Convert.ToString(Environment.ProcessorCount) + " -y";
+                if (textBox2.Text == "" && checkBox2.Checked)
+                {
+                    command += " -ss " + textBox5.Text + " -i \"" + textBox1.Text + "\" -t " + textBox6.Text;
+                }
+                else
+                {
+                    command += " -i \"" + textBox1.Text + "\" -ss " + textBox5.Text + " -t " + textBox6.Text;
+                }
+                command += " -quality best -auto-alt-ref 1 -lag-in-frames 25 -slices 8 -cpu-used 1";
+                command += " -b:v " + Convert.ToString((Convert.ToDouble(textBox3.Text) * 8192 + fixer - Convert.ToDouble(textBox8.Text) * Convert.ToDouble(textBox6.Text)) / Convert.ToDouble(textBox6.Text)) + "k -vf scale=" + textBox4.Text;
+                if (textBox2.Text != "" && !checkBox1.Checked)
+                {
+                    File.Copy(textBox2.Text, "sub.ass", true);
+                    command += ",\"ass=sub.ass\"";
+                }
+                else if (checkBox1.Checked)
+                {
+                    Process subGrab = new Process();
+                    subGrab.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
+                    subGrab.StartInfo.FileName = "ffmpeg";
+                    subGrab.StartInfo.Arguments = "-y -i \"" + textBox1.Text + "\" -c:s copy sub.ass";
+                    subGrab.Start();
+                    subGrab.WaitForExit();
+                    command += ",\"ass=sub.ass\"";
+                }
+                command += ",crop=" + textBox9.Text;
+                if (Convert.ToDouble(textBox8.Text) > 0)
+                {
+                    command += " -ac 2 -b:a " + textBox8.Text + "k";
+                }
+                else
+                {
+                    command += " -an";
+                }
+                command += " " + textBox7.Text + " -pass";
+                if (i % 2 == 0)
+                {
+                    command += " 1";
+                }
+                else
+                {
+                    command += " 2";
+                }
+                command += " \"" + textBox10.Text + "\"";
+                textBox11.Text = "ffmpeg " + command;
+                Process proc = new Process();
+                proc.StartInfo.FileName = "ffmpeg";
+                proc.StartInfo.Arguments = command;
+                proc.Start();
+                proc.WaitForExit();
+                if (i % 2 == 1)
+                {
+                    if (Convert.ToDouble(new FileInfo(textBox10.Text).Length) / 1024 / 1024 < Convert.ToDouble(textBox3.Text))
+                    {
+                        fixer = 0;
+                        break;
+                    }
+                    fixer += Convert.ToDouble(textBox3.Text) * 8192 - Convert.ToDouble(new FileInfo(textBox10.Text).Length) / 1024 * 8;
+                }
+            }
+            fixer = 0;
+        }
+        private void getVidDur()
+        {
+            Process getDur = new Process();
+            getDur.StartInfo.FileName = "ffmpeg";
+            getDur.StartInfo.Arguments = "-i " + textBox1.Text;
+            getDur.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
+            getDur.StartInfo.RedirectStandardError = true;
+            getDur.StartInfo.UseShellExecute = false;
+            getDur.Start();
+            string output = getDur.StandardError.ReadToEnd();
+            string[] convert = output.Substring(output.IndexOf("Duration:") + 10, 11).Split(':');
+            textBox6.Text = Convert.ToString(Convert.ToDouble(convert[0]) * 60 * 60 + Convert.ToDouble(convert[1]) * 60 + Convert.ToDouble(convert[2]));
+            getDur.WaitForExit();
+            trackBar1.Maximum = Convert.ToInt32(Convert.ToDouble(textBox6.Text) * 24);
+            trackBar2.Maximum = Convert.ToInt32(Convert.ToDouble(textBox6.Text) * 24);
+            trackBar1.Value = 0;
+            trackBar2.Value = trackBar2.Maximum;
         }
         private void button1_Click(object sender, EventArgs e)
         {
@@ -86,17 +163,11 @@ namespace webm
             if (browse.FileName != "")
             {
                 textBox1.Text = browse.FileName;
+                getVidDur();
             }
-            loadPrev();
         }
-
         private void button2_Click(object sender, EventArgs e)
         {
-            Process proc = new Process();
-            proc.StartInfo.FileName = "ffmpeg";
-            proc.StartInfo.Arguments = "-y -i " + textBox1.Text + " -c:s copy " + Path.GetDirectoryName(textBox1.Text) + "\\sub.ass";
-            proc.Start();
-            proc.WaitForExit();
             OpenFileDialog browse = new OpenFileDialog();
             browse.Filter = "ass (*.ass)|*.ass|All Files (*.*)|*.*";
             browse.FilterIndex = 1;
@@ -135,6 +206,7 @@ namespace webm
                         lines.Add(path);
                     }
                     textBox1.Text = lines[0];
+                    getVidDur();
                 }
             }
         }
@@ -154,47 +226,6 @@ namespace webm
                     textBox2.Text = lines[0];
                 }
             }
-        }
-        private void button5_Click(object sender, EventArgs e)
-        {
-            previewTime += Math.Round(Convert.ToDouble(textBox11.Text), 2);
-            loadPrev();
-        }
-        private void loadPrev()
-        {
-            pictureBox1.Image = null;
-            GC.Collect();
-            GC.WaitForPendingFinalizers();
-            GC.WaitForFullGCComplete();
-            Process proc = new Process();
-            proc.StartInfo.FileName = "ffmpeg";
-            proc.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
-            proc.StartInfo.Arguments = "-y -ss " + Convert.ToString(previewTime) + " -i \"" + textBox1.Text + "\" -r 1 -f image2 -vframes 1 -vf crop=" + textBox9.Text + " preview.png";
-            proc.Start();
-            proc.WaitForExit();
-            pictureBox1.Image = new Bitmap("preview.png");
-            try
-            {
-                textBox13.Text = Convert.ToString(previewTime - Convert.ToDouble(textBox5.Text));
-            }
-            catch
-            {
-                textBox13.Text = Convert.ToString(previewTime);
-            }
-        }
-        private void button6_Click(object sender, EventArgs e)
-        {
-            previewTime -= Math.Round(Convert.ToDouble(textBox11.Text), 2);
-            loadPrev();
-        }
-        private void button7_Click(object sender, EventArgs e)
-        {
-            previewTime = Math.Round(Convert.ToDouble(textBox12.Text), 2);
-            loadPrev();
-        }
-        private void button8_Click(object sender, EventArgs e)
-        {
-            loadPrev();
         }
     }
 }
