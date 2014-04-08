@@ -83,3 +83,22 @@ Output
 This is where you put your output file name.
 
     C:\Users\Name\Videos\thefuture.webm
+
+To Time
+
+Seeks to this point in the video in seconds.
+
+    54.12
+    18.94
+    
+Back Forward
+
+Go back or forward the amount of time in seconds input into the text box in between them. Defaults to 0.04.
+
+    0.04
+    0.4
+    1
+    
+Refresh
+
+This is for refreshing the preview after change the crop.
