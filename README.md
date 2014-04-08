@@ -101,7 +101,7 @@ Go back or forward the amount of time in seconds input into the text box in betw
     
 Refresh
 
-This is for refreshing the preview after change the crop.
+This is for refreshing the preview after changing the crop settings.
 
 Current Time
 
