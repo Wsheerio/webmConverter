@@ -2,16 +2,16 @@ webmConverter
 =========
 moot <3
 
-The next release is going to be error catching and fixing the terrible preview GUI I threw together.
+Error catching coming soon™.
 
-![Screenshot](http://a.pomf.se/esxeab.png)
+![Screenshot](http://a.pomf.se/uzwrbg.png)
 Downloads
 =========
 [This](https://github.com/Wsheerio/webmConverter/raw/master/Executable/webmConverter.zip) should be a build of the most recent version.
 
 You're going to need [ffmpeg](http://ffmpeg.zeranoe.com/builds/), I recommend grabbing one of the static builds.
 
-Place WebMConverter.exe and the fonts folder in the same directory as ffmpeg.exe
+Place webm.exe and the fonts folder in the same directory as ffmpeg.exe
 
 You also need .NET Framework 4.0
 
@@ -34,16 +34,20 @@ Path of the subtitle file. Currently only supports .ass. Leave blank if you don'
 
 Start Time
 
-Enter the start time in seconds, defaults to 0.
+Enter the start time in seconds, defaults to 0, can be manually set or changed with the sliders.
 
     0
     44
 
-Duration
+Duration, defaults to video length, can be manually set or changed with the sliders.
 
 Enter the your desired length in seconds.
 
     54.123
+
+Runs
+
+The more runs you do the closer your output is going to be to the allowed size. If your output file is over the input limit set this to two and try again, if it's still over set it to three, etc. The loop will always break if your file is below the allowed size. If set to 0 it will do a lot of loops.
 
 Size limit
 
@@ -84,25 +88,10 @@ This is where you put your output file name.
 
     C:\Users\Name\Videos\thefuture.webm
 
-To Time
+The text box in the bottom right is the command the program is giving to ffmpeg.
 
-Seeks to this point in the video in seconds.
+Advanced settings
 
-    54.12
-    18.94
-    
-Back Forward
+Using internal subs will only work with containers that support subtitles and files with only one subtitle track.
 
-Go back or forward the amount of time in seconds input into the text box in between them. Defaults to 0.04.
-
-    0.04
-    0.4
-    1
-    
-Refresh
-
-This is for refreshing the preview after changing the crop settings.
-
-Current Time
-
-This displays the current time relative to the starting time.
+Fast seeking is only to be used if you're not burning subtitles.
