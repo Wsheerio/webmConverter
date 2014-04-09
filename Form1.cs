@@ -20,12 +20,109 @@ namespace webm
         public Form1()
         {
             InitializeComponent();
+            textBox5.Enabled = false;
+            textBox6.Enabled = false;
+            trackBar1.Enabled = false;
+            trackBar2.Enabled = false;
             textBox1.DragDrop += new DragEventHandler(textBox1_DragDrop);
             textBox2.DragDrop += new DragEventHandler(textBox2_DragDrop);
             textBox1.DragEnter += new DragEventHandler(MyTextBox_DragEnter);
             textBox2.DragEnter += new DragEventHandler(MyTextBox_DragEnter);
+            textBox5.TextChanged += new EventHandler(textBox5_TextChanged);
+            textBox6.TextChanged += new EventHandler(textBox6_TextChanged);
             trackBar1.ValueChanged += new EventHandler(trackBar1_ValueChanged);
             trackBar2.ValueChanged += new EventHandler(trackBar2_ValueChanged);
+            textBox3.KeyPress += new KeyPressEventHandler(textBox3_KeyPress);
+            textBox5.KeyPress += new KeyPressEventHandler(textBox3_KeyPress);
+            textBox6.KeyPress += new KeyPressEventHandler(textBox3_KeyPress);
+            textBox8.KeyPress += new KeyPressEventHandler(textBox3_KeyPress);
+            textBox15.KeyPress += new KeyPressEventHandler(textBox3_KeyPress);
+        }
+        private void textBox3_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsControl(e.KeyChar)
+                && !char.IsDigit(e.KeyChar)
+                && e.KeyChar != '.')
+            {
+                e.Handled = true;
+            }
+            if (e.KeyChar == '.'
+                && (sender as TextBox).Text.IndexOf('.') > -1)
+            {
+                e.Handled = true;
+            }
+        }
+        private void textBox5_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsControl(e.KeyChar)
+                && !char.IsDigit(e.KeyChar)
+                && e.KeyChar != '.')
+            {
+                e.Handled = true;
+            }
+            if (e.KeyChar == '.'
+                && (sender as TextBox).Text.IndexOf('.') > -1)
+            {
+                e.Handled = true;
+            }
+        }
+        private void textBox6_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsControl(e.KeyChar)
+                && !char.IsDigit(e.KeyChar)
+                && e.KeyChar != '.')
+            {
+                e.Handled = true;
+            }
+            if (e.KeyChar == '.'
+                && (sender as TextBox).Text.IndexOf('.') > -1)
+            {
+                e.Handled = true;
+            }
+        }
+        private void textBox8_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsControl(e.KeyChar)
+                && !char.IsDigit(e.KeyChar)
+                && e.KeyChar != '.')
+            {
+                e.Handled = true;
+            }
+            if (e.KeyChar == '.'
+                && (sender as TextBox).Text.IndexOf('.') > -1)
+            {
+                e.Handled = true;
+            }
+        }
+        private void textBox15_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsControl(e.KeyChar)
+                && !char.IsDigit(e.KeyChar)
+                && e.KeyChar != '.')
+            {
+                e.Handled = true;
+            }
+            if (e.KeyChar == '.'
+                && (sender as TextBox).Text.IndexOf('.') > -1)
+            {
+                e.Handled = true;
+            }
+        }
+        private void textBox5_TextChanged(object sender, EventArgs e)
+        {
+            if (Convert.ToDouble(textBox5.Text) * 24 > trackBar1.Maximum)
+            {
+                textBox5.Text = Convert.ToString(Convert.ToDouble(trackBar1.Maximum) / 24);
+            }
+            trackBar1.Value = Convert.ToInt32(Convert.ToDouble(textBox5.Text) * 24);
+        }
+        private void textBox6_TextChanged(object sender, EventArgs e)
+        {
+            if (Convert.ToDouble(textBox6.Text) * 24 > trackBar2.Maximum)
+            {
+                textBox6.Text = Convert.ToString((Convert.ToDouble(trackBar2.Maximum) - Convert.ToDouble(textBox5.Text)) / 24);
+            }
+            trackBar2.Value = Convert.ToInt32((Convert.ToDouble(textBox6.Text) + Convert.ToDouble(textBox5.Text)) * 24);
         }
         private void trackBar1_ValueChanged(object sender, EventArgs e)
         {
@@ -45,7 +142,7 @@ namespace webm
             }
             textBox5.Text = Convert.ToString(Convert.ToDouble(trackBar1.Value) / 24);
             textBox6.Text = Convert.ToString((Convert.ToDouble(trackBar2.Value) - Convert.ToDouble(trackBar1.Value)) / 24);
-            previewImage((Convert.ToDouble(trackBar2.Value) - Convert.ToDouble(trackBar1.Value)) / 24 - 0.04);
+            previewImage((Convert.ToDouble(trackBar2.Value)) / 24 - 0.04);
         }
         private void previewImage(double time)
         {
@@ -54,11 +151,18 @@ namespace webm
             GC.WaitForFullGCComplete();
             Process imgPre = new Process();
             imgPre.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
-            imgPre.StartInfo.FileName = "ffmpeg";
+            imgPre.StartInfo.FileName = "ffmpeg";   
             imgPre.StartInfo.Arguments = "-y -ss " + Convert.ToString(time) + " -i \"" + textBox1.Text + "\" -vf crop=" + textBox9.Text + " -f image2 -vframes 1 preview.png";
             imgPre.Start();
             imgPre.WaitForExit();
-            pictureBox1.Image = new Bitmap("preview.png");
+            try
+            {
+                pictureBox1.Image = new Bitmap("preview.png");
+            }
+            catch
+            {
+                pictureBox1.Image = null;
+            }
         }
         private void button3_Click(object sender, EventArgs e)
         {
@@ -142,19 +246,20 @@ namespace webm
         {
             Process getDur = new Process();
             getDur.StartInfo.FileName = "ffmpeg";
-            getDur.StartInfo.Arguments = "-i " + textBox1.Text;
+            getDur.StartInfo.Arguments = "-i \"" + textBox1.Text + "\"";
             getDur.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
             getDur.StartInfo.RedirectStandardError = true;
             getDur.StartInfo.UseShellExecute = false;
             getDur.Start();
             string output = getDur.StandardError.ReadToEnd();
             string[] convert = output.Substring(output.IndexOf("Duration:") + 10, 11).Split(':');
-            textBox6.Text = Convert.ToString(Convert.ToDouble(convert[0]) * 60 * 60 + Convert.ToDouble(convert[1]) * 60 + Convert.ToDouble(convert[2]));
+            output = Convert.ToString(Convert.ToDouble(convert[0]) * 60 * 60 + Convert.ToDouble(convert[1]) * 60 + Convert.ToDouble(convert[2]));
             getDur.WaitForExit();
-            trackBar1.Maximum = Convert.ToInt32(Convert.ToDouble(textBox6.Text) * 24);
-            trackBar2.Maximum = Convert.ToInt32(Convert.ToDouble(textBox6.Text) * 24);
+            trackBar1.Maximum = Convert.ToInt32(Convert.ToDouble(output) * 24);
+            trackBar2.Maximum = Convert.ToInt32(Convert.ToDouble(output) * 24);
             trackBar1.Value = 0;
             trackBar2.Value = trackBar2.Maximum;
+            textBox6.Text = output;
         }
         private void button1_Click(object sender, EventArgs e)
         {
@@ -163,6 +268,10 @@ namespace webm
             if (browse.FileName != "")
             {
                 textBox1.Text = browse.FileName;
+                textBox5.Enabled = true;
+                textBox6.Enabled = true;
+                trackBar1.Enabled = true;
+                trackBar2.Enabled = true;
                 getVidDur();
             }
         }
@@ -206,6 +315,10 @@ namespace webm
                         lines.Add(path);
                     }
                     textBox1.Text = lines[0];
+                    textBox5.Enabled = true;
+                    textBox6.Enabled = true;
+                    trackBar1.Enabled = true;
+                    trackBar2.Enabled = true;
                     getVidDur();
                 }
             }
