@@ -2,9 +2,7 @@ webmConverter
 =========
 moot <3
 
-Paths with special characters don't seem to work, for now rename your input file to something simple like "video.mkv".
-
-Error catching coming soon™.
+It should be a lot more stable now, please open an issue if you find anything.
 
 ![Screenshot](http://a.pomf.se/uzwrbg.png)
 Downloads
