@@ -104,7 +104,7 @@ namespace webm
             {
                 textBox5.Text = Convert.ToString(Convert.ToDouble(trackBar1.Maximum) / frameRate);
             }
-            trackBar1.Value = Convert.ToInt32(Convert.ToDouble(textBox5.Text) * frameRate);
+            //trackBar1.Value = Convert.ToInt32(Convert.ToDouble(textBox5.Text) * frameRate);
         }
         private void textBox6_TextChanged(object sender, EventArgs e)
         {
@@ -116,7 +116,7 @@ namespace webm
             {
                 textBox6.Text = Convert.ToString((Convert.ToDouble(trackBar2.Maximum) - Convert.ToDouble(textBox5.Text)) / frameRate);
             }
-            trackBar2.Value = Convert.ToInt32((Convert.ToDouble(textBox6.Text) + Convert.ToDouble(textBox5.Text)) * frameRate);
+            //trackBar2.Value = Convert.ToInt32((Convert.ToDouble(textBox6.Text) + Convert.ToDouble(textBox5.Text)) * frameRate);
         }
         private void trackBar1_ValueChanged(object sender, EventArgs e)
         {
