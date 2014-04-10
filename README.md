@@ -4,7 +4,7 @@ moot <3
 
 It should be a lot more stable now, please open an issue if you find anything.
 
-![Screenshot](http://a.pomf.se/uzwrbg.png)
+![Screenshot](http://a.pomf.se/mpkzap.png)
 Downloads
 =========
 [This](https://github.com/Wsheerio/webmConverter/raw/master/Executable/webmConverter.zip) should be a build of the most recent version.
@@ -31,17 +31,27 @@ Subtitles
 Path of the subtitle file. Currently only supports .ass. Leave blank if you don't want subtitles. Pressing the subtitle browse button extracts the subs from the video and places it in the same directory as the video.
 
     C:\Users\Name\Videos\chinese cartoon.ass
+    
+Output
+
+Where you want to put the output file and what you want it to be named.
+
+    C:\Users\Name\Videos\chinese cartoon.webm
+    
+Meta Data
+
+    Putting the source here will make it a lot easier for people to find the source.
 
 Start Time
 
-Enter the start time in seconds, defaults to 0, can be manually set or changed with the sliders.
+Enter the start time in seconds, defaults to 0, can be manually set or changed with the sliders. Kind of buggy right now.
 
     0
     44
 
 Duration, defaults to video length, can be manually set or changed with the sliders.
 
-Enter the your desired length in seconds.
+Enter the your desired length in seconds. Kind of buggy right now.
 
     54.123
 
@@ -92,6 +102,6 @@ The text box in the bottom right is the command the program is giving to ffmpeg.
 
 Advanced settings
 
-Using internal subs will only work with containers that support subtitles and files with only one subtitle track.
+Use Internal Subs
 
-Fast seeking is only to be used if you're not burning subtitles.
+Using internal subs will only work with containers that support subtitles and files with only one subtitle track.
