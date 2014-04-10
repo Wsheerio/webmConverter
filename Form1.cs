@@ -17,6 +17,7 @@ namespace webm
     {
         string command;
         double fixer = 0;
+        double frameRate = 23.976;
         public Form1()
         {
             InitializeComponent();
@@ -40,89 +41,82 @@ namespace webm
         }
         private void textBox3_KeyPress(object sender, KeyPressEventArgs e)
         {
-            if (!char.IsControl(e.KeyChar)
-                && !char.IsDigit(e.KeyChar)
-                && e.KeyChar != '.')
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar) && e.KeyChar != '.')
             {
                 e.Handled = true;
             }
-            if (e.KeyChar == '.'
-                && (sender as TextBox).Text.IndexOf('.') > -1)
+            if (e.KeyChar == '.' && (sender as TextBox).Text.IndexOf('.') > -1)
             {
                 e.Handled = true;
             }
         }
         private void textBox5_KeyPress(object sender, KeyPressEventArgs e)
         {
-            if (!char.IsControl(e.KeyChar)
-                && !char.IsDigit(e.KeyChar)
-                && e.KeyChar != '.')
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar) && e.KeyChar != '.')
             {
                 e.Handled = true;
             }
-            if (e.KeyChar == '.'
-                && (sender as TextBox).Text.IndexOf('.') > -1)
+            if (e.KeyChar == '.' && (sender as TextBox).Text.IndexOf('.') > -1)
             {
                 e.Handled = true;
             }
         }
         private void textBox6_KeyPress(object sender, KeyPressEventArgs e)
         {
-            if (!char.IsControl(e.KeyChar)
-                && !char.IsDigit(e.KeyChar)
-                && e.KeyChar != '.')
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar) && e.KeyChar != '.')
             {
                 e.Handled = true;
             }
-            if (e.KeyChar == '.'
-                && (sender as TextBox).Text.IndexOf('.') > -1)
+            if (e.KeyChar == '.' && (sender as TextBox).Text.IndexOf('.') > -1)
             {
                 e.Handled = true;
             }
         }
         private void textBox8_KeyPress(object sender, KeyPressEventArgs e)
         {
-            if (!char.IsControl(e.KeyChar)
-                && !char.IsDigit(e.KeyChar)
-                && e.KeyChar != '.')
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar) && e.KeyChar != '.')
             {
                 e.Handled = true;
             }
-            if (e.KeyChar == '.'
-                && (sender as TextBox).Text.IndexOf('.') > -1)
+            if (e.KeyChar == '.' && (sender as TextBox).Text.IndexOf('.') > -1)
             {
                 e.Handled = true;
             }
         }
         private void textBox15_KeyPress(object sender, KeyPressEventArgs e)
         {
-            if (!char.IsControl(e.KeyChar)
-                && !char.IsDigit(e.KeyChar)
-                && e.KeyChar != '.')
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar) && e.KeyChar != '.')
             {
                 e.Handled = true;
             }
-            if (e.KeyChar == '.'
-                && (sender as TextBox).Text.IndexOf('.') > -1)
+            if (e.KeyChar == '.' && (sender as TextBox).Text.IndexOf('.') > -1)
             {
                 e.Handled = true;
             }
         }
         private void textBox5_TextChanged(object sender, EventArgs e)
         {
-            if (Convert.ToDouble(textBox5.Text) * 24 > trackBar1.Maximum)
+            if (textBox5.Text == "")
             {
-                textBox5.Text = Convert.ToString(Convert.ToDouble(trackBar1.Maximum) / 24);
+                textBox5.Text = "0";
             }
-            trackBar1.Value = Convert.ToInt32(Convert.ToDouble(textBox5.Text) * 24);
+            if (Convert.ToDouble(textBox5.Text) * frameRate > trackBar1.Maximum)
+            {
+                textBox5.Text = Convert.ToString(Convert.ToDouble(trackBar1.Maximum) / frameRate);
+            }
+            trackBar1.Value = Convert.ToInt32(Convert.ToDouble(textBox5.Text) * frameRate);
         }
         private void textBox6_TextChanged(object sender, EventArgs e)
         {
-            if (Convert.ToDouble(textBox6.Text) * 24 > trackBar2.Maximum)
+            if (textBox6.Text == "")
             {
-                textBox6.Text = Convert.ToString((Convert.ToDouble(trackBar2.Maximum) - Convert.ToDouble(textBox5.Text)) / 24);
+                textBox6.Text = "0";
             }
-            trackBar2.Value = Convert.ToInt32((Convert.ToDouble(textBox6.Text) + Convert.ToDouble(textBox5.Text)) * 24);
+            if (Convert.ToDouble(textBox6.Text) * frameRate > trackBar2.Maximum)
+            {
+                textBox6.Text = Convert.ToString((Convert.ToDouble(trackBar2.Maximum) - Convert.ToDouble(textBox5.Text)) / frameRate);
+            }
+            trackBar2.Value = Convert.ToInt32((Convert.ToDouble(textBox6.Text) + Convert.ToDouble(textBox5.Text)) * frameRate);
         }
         private void trackBar1_ValueChanged(object sender, EventArgs e)
         {
@@ -130,9 +124,9 @@ namespace webm
             {
                 trackBar2.Value = trackBar1.Value;
             }
-            textBox5.Text = Convert.ToString(Convert.ToDouble(trackBar1.Value) / 24);
-            textBox6.Text = Convert.ToString((Convert.ToDouble(trackBar2.Value) - Convert.ToDouble(trackBar1.Value)) / 24);
-            previewImage(Convert.ToDouble(trackBar1.Value) / 24);
+            textBox5.Text = Convert.ToString(Convert.ToDouble(trackBar1.Value) / frameRate);
+            textBox6.Text = Convert.ToString((Convert.ToDouble(trackBar2.Value) - Convert.ToDouble(trackBar1.Value)) / frameRate);
+            previewImage(Convert.ToDouble(trackBar1.Value) / frameRate);
         }
         private void trackBar2_ValueChanged(object sender, EventArgs e)
         {
@@ -140,9 +134,8 @@ namespace webm
             {
                 trackBar1.Value = trackBar2.Value;
             }
-            textBox5.Text = Convert.ToString(Convert.ToDouble(trackBar1.Value) / 24);
-            textBox6.Text = Convert.ToString((Convert.ToDouble(trackBar2.Value) - Convert.ToDouble(trackBar1.Value)) / 24);
-            previewImage((Convert.ToDouble(trackBar2.Value)) / 24 - 0.04);
+            textBox6.Text = Convert.ToString((Convert.ToDouble(trackBar2.Value) - Convert.ToDouble(trackBar1.Value)) / frameRate);
+            previewImage((Convert.ToDouble(trackBar2.Value)) / frameRate);
         }
         private void previewImage(double time)
         {
@@ -166,13 +159,20 @@ namespace webm
         }
         private void button3_Click(object sender, EventArgs e)
         {
-            if (Convert.ToInt32(textBox15.Text) <= 0)
+            if (textBox10.Text != "")
             {
-                betterThanBefore(100);
+                if (Convert.ToInt32(textBox15.Text) <= 0)
+                {
+                    betterThanBefore(100);
+                }
+                else
+                {
+                    betterThanBefore(2 * Convert.ToInt32(textBox15.Text));
+                }
             }
             else
             {
-                betterThanBefore(2 * Convert.ToInt32(textBox15.Text));
+                MessageBox.Show("Select an output.");
             }
         }
         private void betterThanBefore(int loop)
@@ -180,15 +180,19 @@ namespace webm
             for (int i = 0; i < loop * 2; i++)
             {
                 command = "-threads " + Convert.ToString(Environment.ProcessorCount) + " -y";
-                if (textBox2.Text == "" && checkBox2.Checked)
+                if (textBox2.Text == "" && !checkBox1.Checked)
                 {
-                    command += " -ss " + textBox5.Text + " -i \"" + textBox1.Text + "\" -t " + textBox6.Text;
+                    command += " -ss " + textBox5.Text + " -t " + textBox6.Text + " -i \"" + textBox1.Text + "\"";
                 }
                 else
                 {
-                    command += " -i \"" + textBox1.Text + "\" -ss " + textBox5.Text + " -t " + textBox6.Text;
+                    command += " -i \"" + textBox1.Text + "\"" + " -ss " + textBox5.Text + " -t " + textBox6.Text;
                 }
-                command += " -quality best -auto-alt-ref 1 -lag-in-frames 25 -slices 8 -cpu-used 1";
+                if (textBox12.Text != "")
+                {
+                    command += " -metadata title=\"" + textBox12.Text + "\"";
+                }
+                command += " -c:v libvpx -c:a libvorbis -quality best -auto-alt-ref 1 -lag-in-frames 25 -slices 8 -cpu-used 1";
                 command += " -b:v " + Convert.ToString((Convert.ToDouble(textBox3.Text) * 8192 + fixer - Convert.ToDouble(textBox8.Text) * Convert.ToDouble(textBox6.Text)) / Convert.ToDouble(textBox6.Text)) + "k -vf scale=" + textBox4.Text;
                 if (textBox2.Text != "" && !checkBox1.Checked)
                 {
@@ -253,10 +257,10 @@ namespace webm
             getDur.Start();
             string output = getDur.StandardError.ReadToEnd();
             string[] convert = output.Substring(output.IndexOf("Duration:") + 10, 11).Split(':');
-            output = Convert.ToString(Convert.ToDouble(convert[0]) * 60 * 60 + Convert.ToDouble(convert[1]) * 60 + Convert.ToDouble(convert[2]));
+            output = Convert.ToString(Convert.ToDouble(convert[0]) * 3600 + Convert.ToDouble(convert[1]) * 60 + Convert.ToDouble(convert[2]));
             getDur.WaitForExit();
-            trackBar1.Maximum = Convert.ToInt32(Convert.ToDouble(output) * 24);
-            trackBar2.Maximum = Convert.ToInt32(Convert.ToDouble(output) * 24);
+            trackBar1.Maximum = Convert.ToInt32(Convert.ToDouble(output) * frameRate);
+            trackBar2.Maximum = Convert.ToInt32(Convert.ToDouble(output) * frameRate);
             trackBar1.Value = 0;
             trackBar2.Value = trackBar2.Maximum;
             textBox6.Text = output;
