@@ -38,6 +38,20 @@ namespace webm
             textBox6.KeyPress += new KeyPressEventHandler(textBox3_KeyPress);
             textBox8.KeyPress += new KeyPressEventHandler(textBox3_KeyPress);
             textBox15.KeyPress += new KeyPressEventHandler(textBox3_KeyPress);
+            Process checkF = new Process();
+            checkF.StartInfo.FileName = "ffmpeg";
+            checkF.StartInfo.Arguments = "ffmpeg";
+            checkF.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
+            checkF.StartInfo.RedirectStandardError = true;
+            checkF.StartInfo.UseShellExecute = false;
+            checkF.Start();
+            string output = checkF.StandardError.ReadToEnd();
+            checkF.WaitForExit();
+            if (output.IndexOf("ffmpeg version") == -1)
+            {
+                MessageBox.Show("You need to put webm.exe in the same folder as ffmpeg.exe or add ffmpeg.exe to your environment variables.");
+                this.Close();
+            }
         }
         private void textBox3_KeyPress(object sender, KeyPressEventArgs e)
         {
@@ -105,6 +119,7 @@ namespace webm
                 textBox5.Text = Convert.ToString(Convert.ToDouble(trackBar1.Maximum) / frameRate);
             }
             //trackBar1.Value = Convert.ToInt32(Convert.ToDouble(textBox5.Text) * frameRate);
+            previewImage(Convert.ToDouble(textBox5.Text));
         }
         private void textBox6_TextChanged(object sender, EventArgs e)
         {
@@ -117,6 +132,7 @@ namespace webm
                 textBox6.Text = Convert.ToString((Convert.ToDouble(trackBar2.Maximum) - Convert.ToDouble(textBox5.Text)) / frameRate);
             }
             //trackBar2.Value = Convert.ToInt32((Convert.ToDouble(textBox6.Text) + Convert.ToDouble(textBox5.Text)) * frameRate);
+            previewImage(Convert.ToDouble(textBox6.Text) - Convert.ToDouble(textBox5.Text));
         }
         private void trackBar1_ValueChanged(object sender, EventArgs e)
         {
