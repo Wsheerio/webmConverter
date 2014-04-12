@@ -18,8 +18,6 @@ You also need .NET Framework 4.0
 Documentation
 =========
 
-If your webm is too big press go again, after every encode it will automatically adjust the bit-rate to get closer to the  size limit.
-
 Video
 
 Path of the input file.
