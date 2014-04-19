@@ -209,11 +209,11 @@ namespace webm
                     command += " -metadata title=\"" + textBox12.Text + "\"";
                 }
                 command += " -c:v libvpx -c:a libvorbis -quality best -auto-alt-ref 1 -lag-in-frames 25 -slices 8 -cpu-used 1";
-                command += " -b:v " + Convert.ToString((Convert.ToDouble(textBox3.Text) * 8192 + fixer - Convert.ToDouble(textBox8.Text) * Convert.ToDouble(textBox6.Text)) / Convert.ToDouble(textBox6.Text)) + "k -vf scale=" + textBox4.Text;
+                command += " -b:v " + Convert.ToString((Convert.ToDouble(textBox3.Text) * 8192 + fixer - Convert.ToDouble(textBox8.Text) * Convert.ToDouble(textBox6.Text)) / Convert.ToDouble(textBox6.Text)) + "k -vf ";
                 if (textBox2.Text != "" && !checkBox1.Checked)
                 {
                     File.Copy(textBox2.Text, "sub.ass", true);
-                    command += ",\"ass=sub.ass\"";
+                    command += "\"ass=sub.ass\",";
                 }
                 else if (checkBox1.Checked)
                 {
@@ -223,9 +223,9 @@ namespace webm
                     subGrab.StartInfo.Arguments = "-y -i \"" + textBox1.Text + "\" -c:s copy sub.ass";
                     subGrab.Start();
                     subGrab.WaitForExit();
-                    command += ",\"ass=sub.ass\"";
+                    command += "\"ass=sub.ass\",";
                 }
-                command += ",crop=" + textBox9.Text;
+                command += "crop=" + textBox9.Text + ",scale=" + textBox4.Text;
                 if (Convert.ToDouble(textBox8.Text) > 0)
                 {
                     command += " -ac 2 -b:a " + textBox8.Text + "k";
