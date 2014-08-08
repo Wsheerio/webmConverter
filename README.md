@@ -26,7 +26,7 @@ Path of the input file.
 
 Subtitles
 
-Path of the subtitle file. Currently only supports .ass. Leave blank if you don't want subtitles. Pressing the subtitle browse button extracts the subs from the video and places it in the same directory as the video.
+Path of the subtitle file. Currently only supports .ass. Leave blank if you don't want subtitles.
 
     C:\Users\Name\Videos\chinese cartoon.ass
     
@@ -38,7 +38,7 @@ Where you want to put the output file and what you want it to be named.
     
 Meta Data
 
-    Putting the source here will make it a lot easier for people to find the source.
+    Putting the source here is a nice thing to do.
 
 Start Time
 
