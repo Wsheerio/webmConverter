@@ -11,6 +11,7 @@ using System.Text.RegularExpressions;
 using System.IO;
 using System.Timers;
 using System.Threading;
+using System.Globalization;
 namespace webm
 {
     public partial class Form1 : Form
@@ -20,6 +21,8 @@ namespace webm
         double frameRate = 23.976;
         public Form1()
         {
+            Thread.CurrentThread.CurrentCulture = new CultureInfo("en-US");
+            Thread.CurrentThread.CurrentUICulture = new CultureInfo("en-US");
             InitializeComponent();
             textBox5.Enabled = false;
             textBox6.Enabled = false;
