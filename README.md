@@ -82,4 +82,8 @@ The resolution of the output file. The first number is the width, the second is 
 
 Use Internal Subs
 
-Using internal subs will only work with containers that support subtitles and files with only one subtitle track.
+    Using internal subs will only work with containers that support subtitles and files with only one subtitle track.
+
+Output Preview
+    The trackbar lets you preview your output from your set start time to your set duration.
+    The preview button refreshses the preview without you having to move the trackbar, it's only useful if you change the crop.
