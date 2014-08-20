@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("webm")]
+[assembly: AssemblyTitle("WindowsFormsApplication1")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("webm")]
+[assembly: AssemblyProduct("WindowsFormsApplication1")]
 [assembly: AssemblyCopyright("Copyright ©  2014")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("3dd7ea5f-74fd-4a97-88a7-5e7b4829d590")]
+[assembly: Guid("d118c62d-992d-41a0-aa0a-1e37ecedffd2")]
 
 // Version information for an assembly consists of the following four values:
 //

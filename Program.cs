@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
 
-namespace webm
+namespace WindowsFormsApplication1
 {
     static class Program
     {
@@ -15,7 +15,7 @@ namespace webm
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Form1());
+            Application.Run(new webmConverter());
         }
     }
 }
