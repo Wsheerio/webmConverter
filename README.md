@@ -2,6 +2,8 @@ webmConverter
 =========
 moot <3
 
+I re-wrote it from scratch, it should be much nicer to use now.
+
 ![Screenshot](http://a.pomf.se/oqzaxk.png)
 Downloads
 =========
