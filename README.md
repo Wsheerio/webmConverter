@@ -76,7 +76,7 @@ Enter the bitrate for audio in kilobits. Leave blank if you don't want sound.
 
 Resolution
 
-The resolution of the output file. The first number is the width, the second is the height. -1 scales the other size to keep the same aspect ratio, leave both as -1 to keep the input resolution. If your webm looks terrible or you can't get the size low enough with the adjust value, lower this.
+The resolution of the output file. The first number is the width, the second is the height. -1 scales the other size to keep the same aspect ratio, leave both as -1 to keep the input resolution.
 
     -1:720
     -1:1080
