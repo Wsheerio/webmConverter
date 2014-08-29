@@ -218,8 +218,8 @@ namespace WindowsFormsApplication1
             string[] convertDur = output.Substring(output.IndexOf("Duration: ") + 10, 11).Split(':');
             try
             {
-                textBox6.Text = "";
-                textBox6.AppendText(Convert.ToString(Convert.ToDouble(convertDur[0]) * 3600 + Convert.ToDouble(convertDur[1]) * 60 + Convert.ToDouble(convertDur[2])));
+                textBox6.Text = (Convert.ToString(Convert.ToDouble(convertDur[0]) * 3600 + Convert.ToDouble(convertDur[1]) * 60 + Convert.ToDouble(convertDur[2])));
+                textBox6.AppendText("");
                 trackBar1.Maximum = Convert.ToInt32(Math.Round(Convert.ToDouble(textBox6.Text) * 120));
                 previewVid();
             }
