@@ -27,74 +27,82 @@ namespace WindowsFormsApplication1
             textBox2.DragDrop += new DragEventHandler(textBox2_DragDrop);
             textBox1.DragEnter += new DragEventHandler(MyTextBox_DragEnter);
             textBox2.DragEnter += new DragEventHandler(MyTextBox_DragEnter);
-            textBox5.TextChanged += new EventHandler(textBox5_TextChanged);
             textBox6.TextChanged += new EventHandler(textBox6_TextChanged);
-            textBox7.TextChanged += new EventHandler(textBox7_TextChanged);
-            textBox9.TextChanged += new EventHandler(textBox9_TextChanged);
+            textBox5.KeyPress += new KeyPressEventHandler(textBox5_KeyPress);
+            textBox6.KeyPress += new KeyPressEventHandler(textBox6_KeyPress);
+            textBox7.KeyPress += new KeyPressEventHandler(textBox7_KeyPress);
+            textBox9.KeyPress += new KeyPressEventHandler(textBox9_KeyPress);
             trackBar1.ValueChanged += new EventHandler(trackBar1_ValueChanged);
             trackBar1.SendToBack();
         }
 
-        //value changing and error fixing stuff
-        private void textBox5_TextChanged(object sender, EventArgs e)
+        //restrict numbers to text boxes
+        private void textBox5_KeyPress(object sender, KeyPressEventArgs e)
         {
-            try
+            if (!char.IsControl(e.KeyChar)
+                && !char.IsDigit(e.KeyChar)
+                && e.KeyChar != '.')
             {
-                textBox5.Text = Convert.ToString(Convert.ToDouble(textBox5.Text));
+                e.Handled = true;
             }
-            catch
+            if (e.KeyChar == '.'
+                && (sender as TextBox).Text.IndexOf('.') > -1)
             {
-                textBox5.Text = "0";
-            }
-            if (Convert.ToDouble(textBox5.Text) < 0)
-            {
-                textBox5.Text = "0";
+                e.Handled = true;
             }
         }
+        private void textBox6_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsControl(e.KeyChar)
+                && !char.IsDigit(e.KeyChar)
+                && e.KeyChar != '.')
+            {
+                e.Handled = true;
+            }
+            if (e.KeyChar == '.'
+                && (sender as TextBox).Text.IndexOf('.') > -1)
+            {
+                e.Handled = true;
+            }
+        }
+        private void textBox7_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsControl(e.KeyChar)
+                && !char.IsDigit(e.KeyChar)
+                && e.KeyChar != '.')
+            {
+                e.Handled = true;
+            }
+            if (e.KeyChar == '.'
+                && (sender as TextBox).Text.IndexOf('.') > -1)
+            {
+                e.Handled = true;
+            }
+        }
+        private void textBox9_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsControl(e.KeyChar)
+                && !char.IsDigit(e.KeyChar)
+                && e.KeyChar != '.')
+            {
+                e.Handled = true;
+            }
+            if (e.KeyChar == '.'
+                && (sender as TextBox).Text.IndexOf('.') > -1)
+            {
+                e.Handled = true;
+            }
+        }
+
+        //value changing
         private void textBox6_TextChanged(object sender, EventArgs e)
         {
             try
             {
-                textBox6.Text = Convert.ToString(Convert.ToDouble(textBox6.Text));
+                trackBar1.Maximum = Convert.ToInt32(Convert.ToDouble(textBox6.Text) * 120);
             }
             catch
             {
-                textBox6.Text = "0";
-            }
-            if (Convert.ToDouble(textBox6.Text) <= 0)
-            {
-                textBox6.Text = "1";
-            }
-            trackBar1.Maximum = Convert.ToInt32(Convert.ToDouble(textBox6.Text) * 120);
-        }
-        private void textBox7_TextChanged(object sender, EventArgs e)
-        {
-            try
-            {
-                textBox7.Text = Convert.ToString(Convert.ToDouble(textBox7.Text));
-            }
-            catch
-            {
-                textBox7.Text = "3";
-            }
-            if (Convert.ToDouble(textBox7.Text) < 0)
-            {
-                textBox7.Text = "3";
-            }
-        }
-        private void textBox9_TextChanged(object sender, EventArgs e)
-        {
-            try
-            {
-                textBox9.Text = Convert.ToString(Convert.ToDouble(textBox9.Text));
-            }
-            catch
-            {
-                textBox9.Text = "0";
-            }
-            if (Convert.ToDouble(textBox9.Text) < 0)
-            {
-                textBox9.Text = "0";
             }
         }
         private void trackBar1_ValueChanged(object sender, EventArgs e)
