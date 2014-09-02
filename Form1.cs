@@ -194,11 +194,11 @@ namespace WindowsFormsApplication1
             command += " -metadata title=\"" + textBox4.Text + "\" -c:v libvpx -c:a libvorbis -quality best -auto-alt-ref 1 -lag-in-frames 25 -slices 8 -cpu-used 1";
             if (Convert.ToDouble(textBox9.Text) <= 0)
             {
-                command += " -an -b:v " + Convert.ToString((Convert.ToDouble(textBox7.Text) / Convert.ToDouble(textBox6.Text)) * 8192) + "k";
+                command += " -an -sn -b:v " + Convert.ToString((Convert.ToDouble(textBox7.Text) / Convert.ToDouble(textBox6.Text)) * 8192) + "k";
             }
             else
             {
-                command += " -ac 2 -b:a " + textBox9.Text + "k -b:v " + Convert.ToString((Convert.ToDouble(textBox7.Text) / Convert.ToDouble(textBox6.Text)) * 8192 - Convert.ToDouble(textBox9.Text)) + "k";
+                command += " -ac 2 -b:a " + textBox9.Text + "k -sn -b:v " + Convert.ToString((Convert.ToDouble(textBox7.Text) / Convert.ToDouble(textBox6.Text)) * 8192 - Convert.ToDouble(textBox9.Text)) + "k";
             }
             Process proc = new Process();
             proc.StartInfo.FileName = "ffmpeg";
@@ -209,7 +209,7 @@ namespace WindowsFormsApplication1
             proc.StartInfo.Arguments = command + " -pass 2 \"" + textBox3.Text + "\"";
             proc.Start();
             proc.WaitForExit();
-            textBox11.Text = command;
+            File.Delete("sub.ass");
         }
 
         //video information stuff, only gets duration for now
