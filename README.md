@@ -2,7 +2,7 @@ webmConverter
 =========
 moot <3
 
-I re-wrote it from scratch, it should be much nicer to use now.
+Opps. Until I get around to fixing it when you're using external subs you're going to need to copy the fonts used in the subs from C:\Windows\Fonts to the same directory as webm Converter.exe.
 
 ![Screenshot](http://a.pomf.se/oqzaxk.png)
 Downloads
