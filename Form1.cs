@@ -174,18 +174,30 @@ namespace WindowsFormsApplication1
             command = "-threads " + Convert.ToString(Environment.ProcessorCount) + " -y";
             if (textBox2.Text != "" && !checkBox1.Checked)
             {
+                Process attGrab = new Process();
+                attGrab.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
+                attGrab.StartInfo.FileName = "ffmpeg";
+                attGrab.StartInfo.Arguments = "-y -dump_attachment:t \"\" -i \"" + textBox1.Text + "\"";
+                attGrab.Start();
+                attGrab.WaitForExit();
                 File.Copy(textBox2.Text, "sub.ass", true);
-                command += " -i \"" + textBox1.Text + "\" -ss " + textBox5.Text + " -t " + textBox6.Text + " -vf ass=\"sub.ass\",crop=" + textBox8.Text + ",scale=" + textBox10.Text;
+                command += " -ss " + textBox5.Text + " -t " + textBox6.Text + " -i \"" + textBox1.Text + "\" -vf setpts=PTS+" + textBox5.Text + "/TB,ass=\"sub.ass\",crop=" + textBox8.Text + ",scale=" + textBox10.Text;
             }
             else if (textBox2.Text == "" && checkBox1.Checked)
             {
+                Process attGrab = new Process();
+                attGrab.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
+                attGrab.StartInfo.FileName = "ffmpeg";
+                attGrab.StartInfo.Arguments = "-y -dump_attachment:t \"\" -i \"" + textBox1.Text + "\"";
+                attGrab.Start();
+                attGrab.WaitForExit();
                 Process subGrab = new Process();
                 subGrab.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
                 subGrab.StartInfo.FileName = "ffmpeg";
                 subGrab.StartInfo.Arguments = "-y -i \"" + textBox1.Text + "\" -c:s copy sub.ass";
                 subGrab.Start();
                 subGrab.WaitForExit();
-                command += " -i \"" + textBox1.Text + "\" -ss " + textBox5.Text + " -t " + textBox6.Text + " -vf ass=\"sub.ass\",crop=" + textBox8.Text + ",scale=" + textBox10.Text;
+                command += " -ss " + textBox5.Text + " -t " + textBox6.Text + " -i \"" + textBox1.Text + "\" -vf setpts=PTS+" + textBox5.Text + "/TB,ass=\"sub.ass\",crop=" + textBox8.Text + ",scale=" + textBox10.Text;
             }
             else
             {
