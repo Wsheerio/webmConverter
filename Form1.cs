@@ -33,6 +33,7 @@ namespace WindowsFormsApplication1
             textBox7.KeyPress += new KeyPressEventHandler(textBox7_KeyPress);
             textBox9.KeyPress += new KeyPressEventHandler(textBox9_KeyPress);
             trackBar1.ValueChanged += new EventHandler(trackBar1_ValueChanged);
+            checkBox1.CheckedChanged += new EventHandler(checkBox1_CheckedChanged);
             trackBar1.SendToBack();
         }
 
@@ -109,6 +110,13 @@ namespace WindowsFormsApplication1
         {
             previewVid();
         }
+        private void checkBox1_CheckedChanged(object sender, EventArgs e)
+        {
+            if (textBox2.Text != "")
+            {
+                textBox2.Text = "";
+            }
+        }
 
         //drag and drop stuff
         void MyTextBox_DragEnter(object sender, DragEventArgs e)
@@ -149,6 +157,7 @@ namespace WindowsFormsApplication1
             browse.ShowDialog();
             if (browse.FileName != "")
             {
+                checkBox1.CheckState = 0;
                 textBox2.Text = "";
                 textBox2.AppendText(browse.FileName);
             }
@@ -171,7 +180,7 @@ namespace WindowsFormsApplication1
         }
         private void button4_Click(object sender, EventArgs e)
         {
-            command = "-threads " + Convert.ToString(Environment.ProcessorCount) + " -y";
+            command = "-y";
             if (textBox2.Text != "" && !checkBox1.Checked)
             {
                 Process attGrab = new Process();
@@ -181,7 +190,7 @@ namespace WindowsFormsApplication1
                 attGrab.Start();
                 attGrab.WaitForExit();
                 File.Copy(textBox2.Text, "sub.ass", true);
-                command += " -ss " + textBox5.Text + " -t " + textBox6.Text + " -i \"" + textBox1.Text + "\" -vf setpts=PTS+" + textBox5.Text + "/TB,ass=\"sub.ass\",crop=" + textBox8.Text + ",scale=" + textBox10.Text;
+                command += " -ss " + textBox5.Text + " -t " + textBox6.Text + " -i \"" + textBox1.Text + "\" -vf setpts=PTS+" + textBox5.Text + "/TB,ass=\"sub.ass\",setpts=PTS-STARTPTS,crop=" + textBox8.Text + ",scale=" + textBox10.Text;
             }
             else if (textBox2.Text == "" && checkBox1.Checked)
             {
@@ -197,13 +206,13 @@ namespace WindowsFormsApplication1
                 subGrab.StartInfo.Arguments = "-y -i \"" + textBox1.Text + "\" -c:s copy sub.ass";
                 subGrab.Start();
                 subGrab.WaitForExit();
-                command += " -ss " + textBox5.Text + " -t " + textBox6.Text + " -i \"" + textBox1.Text + "\" -vf setpts=PTS+" + textBox5.Text + "/TB,ass=\"sub.ass\",crop=" + textBox8.Text + ",scale=" + textBox10.Text;
+                command += " -ss " + textBox5.Text + " -t " + textBox6.Text + " -i \"" + textBox1.Text + "\" -vf setpts=PTS+" + textBox5.Text + "/TB,ass=\"sub.ass\",setpts=PTS-STARTPTS,crop=" + textBox8.Text + ",scale=" + textBox10.Text;
             }
             else
             {
                 command += " -ss " + textBox5.Text + " -t " + textBox6.Text + " -i \"" + textBox1.Text + "\" -vf crop=" + textBox8.Text + ",scale=" + textBox10.Text;
             }
-            command += " -metadata title=\"" + textBox4.Text + "\" -c:v libvpx -c:a libvorbis -quality best -auto-alt-ref 1 -lag-in-frames 25 -slices 8 -cpu-used 1";
+            command += " -metadata title=\"" + textBox4.Text + "\" -c:v libvpx -c:a libvorbis -quality best -auto-alt-ref 1 -lag-in-frames 25 -slices 8 -cpu-used 1 -threads " + Convert.ToString(Environment.ProcessorCount);
             if (Convert.ToDouble(textBox9.Text) <= 0)
             {
                 command += " -an -sn -b:v " + Convert.ToString((Convert.ToDouble(textBox7.Text) / Convert.ToDouble(textBox6.Text)) * 8192) + "k";
