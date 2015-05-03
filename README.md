@@ -1,19 +1,17 @@
-webmConverter
+WebM Converter
 =========
-RIP moot ;_;
+moot?
 
-Opps. Until I get around to fixing it when you're using external subs you're going to need to copy the fonts used in the subs from C:\Windows\Fonts to the same directory as webm Converter.exe.
-
-![Screenshot](http://a.pomf.se/oqzaxk.png)
+![Screenshot](http://a.pomf.se/eaxxtd.png)
 Downloads
 =========
-[This](https://github.com/Wsheerio/webmConverter/raw/master/Executable/webmConverter.zip) should be a build of the most recent version.
+[This](http://a.pomf.se/xonznx.zip) should be a build of the most recent version.
 
 You're going to need [ffmpeg](http://ffmpeg.zeranoe.com/builds/), I recommend grabbing one of the static builds.
 
 Place webm Converter.exe and the fonts folder in the same directory as ffmpeg.exe
 
-You also need .NET Framework 4.0
+You also need [.NET Framework 4.0](https://www.microsoft.com/en-us/download/details.aspx?id=17851)
 
 Documentation
 =========
@@ -35,39 +33,31 @@ Output
 Where you want to put the output file and what you want it to be named.
 
     C:\Users\Name\Videos\chinese cartoon.webm
-    
-Meta Data
-
-    Putting the source here is a nice thing to do.
 
 Start Time
 
-Enter the start time in seconds, defaults to 0, can be manually set or changed with the sliders. Kind of buggy right now.
+Enter the start time in seconds or hh:mm:ss.
 
     0
     44
+    00:43:54.901341
 
-Duration, defaults to video length, can be manually set or changed with the sliders.
+Duration/Stop Time
 
-Enter the your desired length in seconds.
+Enter the your desired length in seconds or hh:mm:ss, clicking the button will change from duration to stop time.
 
     54.123
+    01:34:12.123
 
 Size limit
 
-The maximum size allowed for the output in megabytes, defaults to 3.
+The maximum size allowed for the output in megabytes.
 
     1
     2.5
     3.12341
 
-Crop
-
-This lets you crop a video\. The command looks like this, Width:Height:X:Y. Width is the width of the rectangle being cropped, height is the height, x and y are the coordinates of the rectangle being cropped. in_w and in_h grab the videos resolution.
-
-    500:500:10:10
-
-Sound
+Audio
 
 Enter the bitrate for audio in kilobits. Leave blank if you don't want sound.
 
@@ -82,11 +72,12 @@ The resolution of the output file. The first number is the width, the second is 
     -1:1080
     1280:-1
 
+Crop
+
+This lets you crop a video\. The command looks like this, Width:Height:X:Y. Width is the width of the rectangle being cropped, height is the height, x and y are the coordinates of the rectangle being cropped. in_w and in_h grab the videos width and height respectively.
+
+    500:500:10:10
+
 Use Internal Subs
 
 Using internal subs will only work with containers that support subtitles and files with only one subtitle track.
-
-Output Preview
-
-The trackbar lets you preview your output from your set start time to your set duration.
-The preview button refreshses the preview without you having to move the trackbar, it's only useful if you change the crop.
