@@ -9,7 +9,7 @@ Downloads
 
 You're going to need [ffmpeg](http://ffmpeg.zeranoe.com/builds/), I recommend grabbing one of the static builds.
 
-Place webm Converter.exe and the fonts folder in the same directory as ffmpeg.exe
+Place WebM Converter.exe and the fonts folder in the same directory as ffmpeg.exe
 
 You also need [.NET Framework 4.0](https://www.microsoft.com/en-us/download/details.aspx?id=17851)
 
