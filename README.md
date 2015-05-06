@@ -44,7 +44,7 @@ Enter the start time in seconds or hh:mm:ss.
 
 Duration/Stop Time
 
-Enter the your desired length in seconds or hh:mm:ss, clicking the button will change from duration to stop time.
+Enter the duration/stop time in seconds or hh:mm:ss, clicking the button will change from duration to stop time.
 
     54.123
     01:34:12.123
