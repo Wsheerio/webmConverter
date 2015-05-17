@@ -5,7 +5,7 @@ moot?
 ![Screenshot](http://a.pomf.se/eaxxtd.png)
 Downloads
 =========
-[This](http://a.pomf.se/xonznx.zip) should be a build of the most recent version.
+[This](http://a.pomf.se/xcgtch.zip) should be a build of the most recent version.
 
 You're going to need [ffmpeg](http://ffmpeg.zeranoe.com/builds/), I recommend grabbing one of the static builds.
 
