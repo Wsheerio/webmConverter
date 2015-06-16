@@ -5,7 +5,7 @@ moot?
 ![Screenshot](https://d.maxfile.ro/trfgfmdepf.png)
 Downloads
 =========
-[This](https://d.maxfile.ro/ythwletlbt.zip) should be a build of the most recent version.
+The [release page](https://github.com/Wsheerio/webmConverter/releases) should have a build of the most recent version.
 
 You're going to need [ffmpeg](http://ffmpeg.zeranoe.com/builds/), I recommend grabbing one of the static builds.
 
