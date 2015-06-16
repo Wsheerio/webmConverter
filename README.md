@@ -9,9 +9,9 @@ The [release page](https://github.com/Wsheerio/webmConverter/releases) should ha
 
 You're going to need [ffmpeg](http://ffmpeg.zeranoe.com/builds/), I recommend grabbing one of the static builds.
 
-Place WebM Converter.exe and the fonts folder in the same directory as ffmpeg.exe
-
 You also need [.NET Framework 4.0](https://www.microsoft.com/en-us/download/details.aspx?id=17851)
+
+Place WebM Converter.exe and the fonts folder in the same directory as ffmpeg.exe
 
 Documentation
 =========
