@@ -180,21 +180,29 @@ namespace WebM_Converter
             {
                 errors += "Check video output.\n";
             }
+            if (starttimeTextBox.Text == "" || !double.TryParse(starttimeTextBox.Text.Replace(":", ""), out temp))
+            {
+                errors += "Check start time.\n";
+            }
             if (starttimeTextBox.Text.Split(':').Length == 2)
             {
                 starttimeTextBox.Text = "00:" + starttimeTextBox.Text;
+                if (starttimeTextBox.Text.Split(':')[1] == "" || starttimeTextBox.Text.Split(':')[2] == "")
+                {
+                    errors += "Check start time.\n";
+                }
             }
-            if (starttimeTextBox.Text == "" || !double.TryParse(starttimeTextBox.Text.Replace(":", ""), out temp) || starttimeTextBox.Text.Split(':')[0] == "" || starttimeTextBox.Text.Split(':')[1] == "" || starttimeTextBox.Text.Split(':')[2] == "")
+            if (stoptimeTextBox.Text == "" || !double.TryParse(stoptimeTextBox.Text.Replace(":", ""), out temp))
             {
-                errors += "Check start time.\n";
+                errors += "Check stop time/duration.\n";
             }
             if (stoptimeTextBox.Text.Split(':').Length == 2)
             {
                 stoptimeTextBox.Text = "00:" + stoptimeTextBox.Text;
-            }
-            if (stoptimeTextBox.Text == "" || !double.TryParse(stoptimeTextBox.Text.Replace(":", ""), out temp) || stoptimeTextBox.Text.Split(':')[0] == "" || stoptimeTextBox.Text.Split(':')[1] == "" || stoptimeTextBox.Text.Split(':')[2] == "")
-            {
-                errors += "Check stop time or duration.\n";
+                if(stoptimeTextBox.Text.Split(':')[1] == "" || stoptimeTextBox.Text.Split(':')[2] == "")
+                {
+                    errors += "Check start time.\n";
+                }
             }
             if (sizelimitTextBox.Text == "" || !double.TryParse(sizelimitTextBox.Text, out temp))
             {
