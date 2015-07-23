@@ -84,4 +84,4 @@ Using internal subs will only work with containers that support subtitles and fi
 
 Image Preview
 
-This lets you preview the output video, very useful for checking cropping.
+This lets you preview the output video, very useful for checking cropping. Subtitles are not shown.
