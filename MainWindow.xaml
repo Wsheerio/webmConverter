@@ -3,8 +3,8 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="WebM Converter" Height="600" Width="800" ResizeMode="CanMinimize" FontFamily="Open Sans" FontSize="12" AllowDrop="False" SizeToContent="WidthAndHeight" MinWidth="256" MinHeight="256">
     <Grid AllowDrop="False" Background="#FFEEEEEE">
-        <!--<Rectangle Height="256" HorizontalAlignment="Left" Name="rectangle1" Stroke="#00000000" VerticalAlignment="Top" Width="639" Panel.ZIndex="256" Margin="0,0,0,0" />-->
-        <Rectangle Height="256" HorizontalAlignment="Left" Name="rectangle1" Stroke="#00000000" VerticalAlignment="Top" Width="258" Panel.ZIndex="256" Margin="0,0,0,0" />
+        <Rectangle Height="256" HorizontalAlignment="Left" Name="rectangle1" Stroke="#00000000" VerticalAlignment="Top" Width="639" Panel.ZIndex="256" Margin="0,0,0,0" />
+        <!--<Rectangle Height="256" HorizontalAlignment="Left" Name="rectangle1" Stroke="#00000000" VerticalAlignment="Top" Width="258" Panel.ZIndex="256" Margin="0,0,0,0" />-->
         <Button Content="Video" Height="32" HorizontalAlignment="Left" Name="videoButton" VerticalAlignment="Top" Width="64" Padding="0" BorderThickness="0" Margin="4,4,0,0" Click="videoButton_Click" TabIndex="0" Background="#FFCCCCCC" />
         <TextBox Height="32" AllowDrop="true" HorizontalAlignment="Left" Margin="72,4,0,0" Name="videoTextBox" VerticalAlignment="Top" Width="182" MaxLines="1" VerticalContentAlignment="Center" HorizontalContentAlignment="Left" BorderThickness="0" IsReadOnly="True" Background="#FFCCCCCC" FlowDirection="RightToLeft" />
         <Button BorderThickness="0" Content="Subtitles" Height="32" HorizontalAlignment="Left" Margin="4,40,0,0" Name="subtitlesButton" Padding="0" VerticalAlignment="Top" Width="64" Click="subtitlesButton_Click" TabIndex="1" Background="#FFCCCCCC" />
@@ -12,7 +12,7 @@
         <Button BorderThickness="0" Content="Output" Height="32" HorizontalAlignment="Left" Margin="4,76,0,0" Name="outputButton" Padding="0" VerticalAlignment="Top" Width="64" Click="outputButton_Click" TabIndex="3" Background="#FFCCCCCC" />
         <TextBox Background="#FFCCCCCC" AllowDrop="true" BorderThickness="0" Height="32" HorizontalAlignment="Left" HorizontalContentAlignment="Left" IsReadOnly="True" Margin="72,76,0,0" MaxLines="1" Name="outputTextBox" VerticalAlignment="Top" VerticalContentAlignment="Center" Width="182" FlowDirection="RightToLeft" />
         <Label Content="Start Time" Height="32" HorizontalAlignment="Left" Margin="4,112,0,0" Name="label1" VerticalAlignment="Top" Padding="0" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Width="64" />
-        <!--<Image Height="212" HorizontalAlignment="Left" Margin="258,4,0,0" Name="previewImage" Stretch="Uniform" VerticalAlignment="Top" Width="377" />-->
+        <Image Height="212" HorizontalAlignment="Left" Margin="258,4,0,0" Name="previewImage" Stretch="Uniform" VerticalAlignment="Top" Width="377" />
         <TextBox Background="#FFCCCCCC" BorderThickness="0" Height="32" HorizontalAlignment="Left" HorizontalContentAlignment="Center" IsReadOnly="False" Margin="72,112,0,0" MaxLines="1" Name="starttimeTextBox" VerticalAlignment="Top" VerticalContentAlignment="Center" Width="55" TabIndex="3" Text="00:00:00" />
         <TextBox Background="#FFCCCCCC" BorderThickness="0" Height="32" HorizontalAlignment="Left" HorizontalContentAlignment="Center" IsReadOnly="False" Margin="199,112,0,0" MaxLines="1" Name="stoptimeTextBox" VerticalAlignment="Top" VerticalContentAlignment="Center" Width="55" TabIndex="5" Text="00:00:08" />
         <Label Content="Size Limit" Height="32" HorizontalAlignment="Left" HorizontalContentAlignment="Center" Margin="4,148,0,0" Name="label3" Padding="0" VerticalAlignment="Top" VerticalContentAlignment="Center" Width="64" />
@@ -25,7 +25,7 @@
         <TextBox Background="#FFCCCCCC" BorderThickness="0" Height="32" HorizontalAlignment="Left" HorizontalContentAlignment="Center" IsReadOnly="False" Margin="199,184,0,0" MaxLines="1" Name="cropTextBox" VerticalAlignment="Top" VerticalContentAlignment="Center" Width="55" TabIndex="9" Text="in_w:in_h:0:0" />
         <Button BorderThickness="0" Content="Go" Height="32" HorizontalAlignment="Left" Margin="131,220,0,0" Name="goButton" Padding="0" VerticalAlignment="Top" Width="123" Click="goButton_Click" TabIndex="11" Background="#FFCCCCCC" />
         <CheckBox Content="Use Internal Subs" Height="32" HorizontalAlignment="Left" Margin="4,220,0,0" Name="useinternalsubsTextBox" VerticalAlignment="Top" Padding="0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Width="123" TabIndex="10" />
-        <!--<Slider Height="18" HorizontalAlignment="Left" Margin="258,227,0,0" Name="previewSlider" VerticalAlignment="Top" Width="377" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Foreground="#FFDDDDDD" SmallChange="1" ValueChanged="previewSlider_ValueChanged" TickPlacement="None" LargeChange="5" Delay="500" Maximum="100" />-->
+        <Slider Height="18" HorizontalAlignment="Left" Margin="258,227,0,0" Name="previewSlider" VerticalAlignment="Top" Width="377" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Foreground="#FFDDDDDD" SmallChange="1" ValueChanged="previewSlider_ValueChanged" TickPlacement="None" LargeChange="5" Delay="1000" Maximum="0" />
         <Button BorderThickness="0" Content="Stop Time" Height="32" HorizontalAlignment="Left" Margin="131,112,0,0" Name="stopTimeButton" Padding="0" TabIndex="4" VerticalAlignment="Top" Width="64" Click="stopTimeButton_Click" Background="#FFCCCCCC" />
     </Grid>
 </Window>

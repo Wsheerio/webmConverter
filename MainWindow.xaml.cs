@@ -1,29 +1,17 @@
 ﻿using System.Windows.Media.Imaging;
-using System.Collections.Generic;
-using System.Windows.Navigation;
-using System.Windows.Documents;
-using System.Windows.Controls;
-using System.Windows.Shapes;
-using System.Windows.Media;
-using System.Windows.Input;
 using System.Globalization;
-using System.Windows.Data;
 using System.Diagnostics;
 using System.Threading;
 using System.Windows;
-using System.Linq;
-using System.Text;
 using System.IO;
 using System;
 
 namespace WebM_Converter
 {
-    /// <summary>
-    /// Interaction logic for MainWindow.xaml
-    /// </summary>
     public partial class MainWindow : Window
     {
         string errors = "";
+        double maxTime;
         double duration;
         double stopTime;
         string subtitles;
@@ -50,6 +38,8 @@ namespace WebM_Converter
             if (browse.FileName != "")
             {
                 videoTextBox.Text = browse.FileName;
+                getVideoInfo();
+                changePreview();
             }
         }
         private void subtitlesButton_Click(object sender, RoutedEventArgs e)
@@ -75,15 +65,17 @@ namespace WebM_Converter
         }
         private void stopTimeButton_Click(object sender, RoutedEventArgs e)
         {
-            if (Convert.ToString(stopTimeButton.Content) == "Duration")
+            if (Convert.ToString(stopTimeButton.Content) == "Stop Time")
             {
-                stopTimeButton.Content = "Stop Time";
+                stopTimeButton.Content = "Duration";
+                stoptimeTextBox.Text = getTime(getSeconds(stoptimeTextBox.Text) - getSeconds(starttimeTextBox.Text));
             }
             else
             {
-                stopTimeButton.Content = "Duration";
+                stopTimeButton.Content = "Stop Time";
+                stoptimeTextBox.Text = getTime(getSeconds(starttimeTextBox.Text) + getSeconds(stoptimeTextBox.Text));
             }
-            //changePreview();
+            changePreview();
         }
         private void goButton_Click(object sender, RoutedEventArgs e)
         {
@@ -125,8 +117,8 @@ namespace WebM_Converter
                 ffmpeg.WaitForExit();
                 subtitles = ",ass=\"temp\\\\\\\\sub.ass\"";
             }
-            startTime = convertTime(starttimeTextBox.Text);
-            stopTime = convertTime(stoptimeTextBox.Text);
+            startTime = getSeconds(starttimeTextBox.Text);
+            stopTime = getSeconds(stoptimeTextBox.Text);
             if (Convert.ToString(stopTimeButton.Content) == "Duration")
             {
                 duration = stopTime;
@@ -134,6 +126,11 @@ namespace WebM_Converter
             else
             {
                 duration = stopTime - startTime;
+            }
+            if (startTime + duration > maxTime)
+            {
+                MessageBox.Show("Times extend past video.");
+                return;
             }
             videoBitrate = ((Convert.ToDouble(sizelimitTextBox.Text) * 8192 / duration) - Convert.ToDouble(audioTextBox.Text));
             audioBitrate = audioTextBox.Text + "k";
@@ -149,26 +146,6 @@ namespace WebM_Converter
             ffmpeg.WaitForExit();
             //Clipboard.SetText(string.Format("ffmpeg -y -ss {0} -t {1} -i \"{2}\" -vf setpts=PTS+{0}/TB{3},setpts=PTS-STARTPTS,crop={4},scale={5} {6} -b:v {7}k -b:a {8} -pass {9} \"{10}\"", startTime, duration, videoTextBox.Text, subtitles, cropTextBox.Text, resolutionTextBox.Text, rest, videoBitrate, audioBitrate, "2", outputTextBox.Text));
         }
-        //private void starttimeTextBox_TextChanged(object sender, TextChangedEventArgs e)
-        //{
-        //    //changePreview();
-        //}
-        //private void durationTextBox_TextChanged(object sender, TextChangedEventArgs e)
-        //{
-        //    //changePreview();
-        //}
-        //private void resolutionTextBox_TextChanged(object sender, TextChangedEventArgs e)
-        //{
-        //    //changePreview();
-        //}
-        //private void cropTextBox_TextChanged(object sender, TextChangedEventArgs e)
-        //{
-        //    //changePreview();
-        //}
-        //private void previewSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
-        //{
-            //changePreview();
-        //}
         private void checkErrors()
         {
             double temp;
@@ -180,29 +157,13 @@ namespace WebM_Converter
             {
                 errors += "Check video output.\n";
             }
-            if (starttimeTextBox.Text == "" || !double.TryParse(starttimeTextBox.Text.Replace(":", ""), out temp))
+            if (starttimeTextBox.Text == "" || !double.TryParse(starttimeTextBox.Text.Replace(":", ""), out temp) || starttimeTextBox.Text.Split(':').Length != 3)
             {
                 errors += "Check start time.\n";
             }
-            if (starttimeTextBox.Text.Split(':').Length == 2)
-            {
-                starttimeTextBox.Text = "00:" + starttimeTextBox.Text;
-                if (starttimeTextBox.Text.Split(':')[1] == "" || starttimeTextBox.Text.Split(':')[2] == "")
-                {
-                    errors += "Check start time.\n";
-                }
-            }
-            if (stoptimeTextBox.Text == "" || !double.TryParse(stoptimeTextBox.Text.Replace(":", ""), out temp))
+            if (stoptimeTextBox.Text == "" || !double.TryParse(stoptimeTextBox.Text.Replace(":", ""), out temp) || stoptimeTextBox.Text.Split(':').Length != 3)
             {
                 errors += "Check stop time/duration.\n";
-            }
-            if (stoptimeTextBox.Text.Split(':').Length == 2)
-            {
-                stoptimeTextBox.Text = "00:" + stoptimeTextBox.Text;
-                if(stoptimeTextBox.Text.Split(':')[1] == "" || stoptimeTextBox.Text.Split(':')[2] == "")
-                {
-                    errors += "Check start time.\n";
-                }
             }
             if (sizelimitTextBox.Text == "" || !double.TryParse(sizelimitTextBox.Text, out temp))
             {
@@ -221,49 +182,107 @@ namespace WebM_Converter
                 errors += "Check crop.";
             }
         }
-        private double convertTime(string input)
+        private double getSeconds(string input)
         {
             checkErrors();
-            if (errors != "")
+            if (errors.Contains("stop time") || errors.Contains("start time"))
             {
+                MessageBox.Show(errors);
                 errors = "";
                 return 0;
             }
-            double temp;
-            if (input.Contains(':'))
+            errors = "";
+            return Convert.ToDouble(input.Split(':')[2]) + Convert.ToDouble(input.Split(':')[1]) * 60 + Convert.ToDouble(input.Split(':')[0]) * 3600;
+        }
+        private string getTime(double input)
+        {
+            string[] time = new string[3];
+            time[0] = Convert.ToString(Math.Truncate(input / 3600)).PadLeft(2, '0');
+            time[1] = Convert.ToString(Math.Truncate(input / 60)).PadLeft(2, '0');
+            time[2] = Convert.ToString(input % 60);
+            if (time[2].Split('.').Length == 2)
             {
-                temp = Convert.ToDouble(input.Split(':')[2]);
-                temp += Convert.ToDouble(input.Split(':')[1]) * 60;
-                temp += Convert.ToDouble(input.Split(':')[0]) * 60 * 60;
+                time[2] = time[2].Split('.')[0].PadLeft(2, '0') + "." + time[2].Split('.')[1];
             }
             else
             {
-                temp = Convert.ToDouble(input);
+                time[2] = time[2].PadLeft(2, '0');
             }
-            return temp;
+            return time[0] + ":" + time[1] + ":" + time[2];
         }
-        //private void changePreview()
-        //{
-        //    if (previewSlider == null)
-        //    {
-        //    }
-        //    else
-        //    {
-        //        previewSlider.Minimum = convertTime(starttimeTextBox.Text) * 24;
-        //        if (Convert.ToString(stopTimeButton.Content) == "Duration")
-        //        {
-        //            previewSlider.Maximum = (convertTime(stoptimeTextBox.Text) + convertTime(starttimeTextBox.Text)) * 24;
-        //        }
-        //        else
-        //        {
-        //            previewSlider.Maximum = convertTime(stoptimeTextBox.Text) * 24;
-        //        }
-        //        ffmpeg.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
-        //        ffmpeg.StartInfo.Arguments = string.Format("-y -ss {1} -i \"{0}\" -r 1 -f image2 temp/preview.png", videoTextBox.Text, previewSlider.Value / 24);
-        //        ffmpeg.Start();
-        //        ffmpeg.WaitForExit();
-        //        FileStream f = File.OpenRead("temp/preview.png");
-        //    }
-        //}
+        private void getVideoInfo()
+        {
+            Process getInfo = new Process();
+            getInfo.StartInfo.FileName = "ffmpeg";
+            getInfo.StartInfo.Arguments = "-i \"" + videoTextBox.Text + "\"";
+            getInfo.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
+            getInfo.StartInfo.RedirectStandardError = true;
+            getInfo.StartInfo.UseShellExecute = false;
+            getInfo.Start();
+            getInfo.WaitForExit();
+            string output = getInfo.StandardError.ReadToEnd();
+            string[] convertDur = output.Substring(output.IndexOf("Duration: ") + 10, 11).Split(':');
+            try
+            {
+                stoptimeTextBox.Text = convertDur[0] + ":" + convertDur[1] + ":" + convertDur[2];
+                maxTime = getSeconds(stoptimeTextBox.Text);
+            }
+            catch
+            {
+                MessageBox.Show("That's not a video, ffmpeg doesn't like the format, or I messed up somewhere.");
+            }
+        }
+        private void previewSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            checkErrors();
+            if (errors.Contains("extend") || errors.Contains("stop time") || errors.Contains("start time"))
+            {
+                MessageBox.Show(errors);
+                errors = "";
+            }
+            else
+            {
+                errors = "";
+                changePreview();
+            }
+        }
+        private void changePreview()
+        {
+            if (previewSlider == null)
+            {
+            }
+            else
+            {
+                previewSlider.Minimum = Math.Truncate(getSeconds(starttimeTextBox.Text) * 24 / 1.001);
+                if (Convert.ToString(stopTimeButton.Content) == "Duration")
+                {
+                    previewSlider.Maximum = Math.Truncate((getSeconds(stoptimeTextBox.Text) + getSeconds(starttimeTextBox.Text)) * 24 / 1.001);
+                }
+                else
+                {
+                    previewSlider.Maximum = Math.Truncate((getSeconds(stoptimeTextBox.Text) - getSeconds(starttimeTextBox.Text)) * 24 / 1.001);
+                }
+                if (previewSlider.Maximum > Math.Truncate(maxTime * 24 / 1.001))
+                {
+                    previewSlider.Maximum = Math.Truncate(maxTime * 24 / 1.001);
+                }
+                previewSlider.Value = Math.Truncate(previewSlider.Value);
+                Process getImage = new Process();
+                getImage.StartInfo.FileName = "ffmpeg";
+                getImage.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
+                getImage.StartInfo.Arguments = string.Format("-y -ss {1} -i \"{0}\" -r 1 -f image2 -vf crop={2},scale={3} temp/preview.png", videoTextBox.Text, previewSlider.Value / 24, cropTextBox.Text, resolutionTextBox.Text);
+                getImage.Start();
+                getImage.WaitForExit();
+                FileStream f = File.OpenRead("temp/preview.png");
+                BitmapImage preview = new BitmapImage();
+                MemoryStream ms = new MemoryStream();
+                f.CopyTo(ms);
+                f.Close();
+                preview.BeginInit();
+                preview.StreamSource = ms;
+                preview.EndInit();
+                previewImage.Source = preview;
+            }
+        }
     }
 }

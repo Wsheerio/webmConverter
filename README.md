@@ -2,7 +2,7 @@ WebM Converter
 =========
 moot?
 
-![Screenshot](https://d.maxfile.ro/trfgfmdepf.png)
+![Screenshot](https://d.maxfile.ro/cfwpyonhib.png)
 Downloads
 =========
 The [release page](https://github.com/Wsheerio/webmConverter/releases) should have a build of the most recent version.
@@ -44,9 +44,9 @@ Enter the start time in seconds or hh:mm:ss.
 
 Duration/Stop Time
 
-Enter the duration/stop time in seconds or hh:mm:ss, clicking the button will change from duration to stop time.
+Enter the duration/stop time in hh:mm:ss, clicking the button will change from duration to stop time.
 
-    54.123
+    00:30:1471.163
     01:34:12.123
 
 Size limit
@@ -81,3 +81,7 @@ This lets you crop a video\. The command looks like this, Width:Height:X:Y. Widt
 Use Internal Subs
 
 Using internal subs will only work with containers that support subtitles and files with only one subtitle track.
+
+Image Preview
+
+This lets you preview the output video, very useful for checking cropping.
