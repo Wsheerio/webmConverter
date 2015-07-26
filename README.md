@@ -2,7 +2,7 @@ WebM Converter
 =========
 moot?
 
-![Screenshot](https://d.maxfile.ro/xvgaqdyeuz.png)
+![Screenshot](https://d.maxfile.ro/mcmhxttayc.png)
 Downloads
 =========
 The [release page](https://github.com/Wsheerio/webmConverter/releases) should have a build of the most recent version.
