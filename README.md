@@ -59,7 +59,7 @@ The maximum size allowed for the output in megabytes.
 
 Audio
 
-Enter the bitrate for audio in kilobits. Leave blank if you don't want sound.
+Enter the bitrate for audio in kilobits. Use "0" if you don't want sound.
 
     32
     192
