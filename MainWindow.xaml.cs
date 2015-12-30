@@ -100,7 +100,7 @@ namespace WebM_Converter
             {
                 ffmpeg.StartInfo.Arguments = string.Format("-y -dump_attachment:t \"\" -i \"{0}\"", videoTextBox.Text);
                 ffmpeg.Start();
-                ffmpeg.WaitForExit(3000);
+                ffmpeg.WaitForExit();
                 string[] files = Directory.GetFiles(AppDomain.CurrentDomain.BaseDirectory + "\\temp");
                 for (int x = 0; x < files.Length; x++)
                 {
@@ -116,7 +116,7 @@ namespace WebM_Converter
                 }
                 ffmpeg.StartInfo.Arguments = string.Format("-y -i \"{0}\" -c:s copy temp\\sub.ass", videoTextBox.Text);
                 ffmpeg.Start();
-                ffmpeg.WaitForExit(3000);
+                ffmpeg.WaitForExit();
                 subtitles = ",ass=\"temp\\\\\\\\sub.ass\"";
             }
             startTime = getSeconds(starttimeTextBox.Text);
@@ -145,11 +145,10 @@ namespace WebM_Converter
             ffmpeg.StartInfo.CreateNoWindow = false;
             ffmpeg.StartInfo.Arguments = string.Format("-y -ss {0} -t {1} -i \"{2}\" -vf setpts=PTS+{0}/TB{3},setpts=PTS-STARTPTS,crop={4},scale={5} {6} -b:v {7}k -b:a {8} -pass {9} \"{10}\"", startTime, duration, videoTextBox.Text, subtitles, cropTextBox.Text, resolutionTextBox.Text, rest, videoBitrate, audioBitrate, "1", outputTextBox.Text);
             ffmpeg.Start();
-            ffmpeg.WaitForExit(3000);
+            ffmpeg.WaitForExit();
             ffmpeg.StartInfo.Arguments = string.Format("-y -ss {0} -t {1} -i \"{2}\" -vf setpts=PTS+{0}/TB{3},setpts=PTS-STARTPTS,crop={4},scale={5} {6} -b:v {7}k -b:a {8} -pass {9} \"{10}\"", startTime, duration, videoTextBox.Text, subtitles, cropTextBox.Text, resolutionTextBox.Text, rest, videoBitrate, audioBitrate, "2", outputTextBox.Text);
             ffmpeg.Start();
-            ffmpeg.WaitForExit(3000);
-            //Clipboard.SetText(string.Format("ffmpeg -y -ss {0} -t {1} -i \"{2}\" -vf setpts=PTS+{0}/TB{3},setpts=PTS-STARTPTS,crop={4},scale={5} {6} -b:v {7}k -b:a {8} -pass {9} \"{10}\"", startTime, duration, videoTextBox.Text, subtitles, cropTextBox.Text, resolutionTextBox.Text, rest, videoBitrate, audioBitrate, "2", outputTextBox.Text));
+            ffmpeg.WaitForExit();
         }
         private void checkErrors()
         {
@@ -222,7 +221,7 @@ namespace WebM_Converter
             ffmpeg.StartInfo.CreateNoWindow = true;
             ffmpeg.StartInfo.Arguments = "-i \"" + videoTextBox.Text + "\"";
             ffmpeg.Start();
-            ffmpeg.WaitForExit(3000);
+            ffmpeg.WaitForExit(1000);
             string output = ffmpeg.StandardError.ReadToEnd();
             fps = Convert.ToDouble(output.Substring(output.LastIndexOf("fps") - 6, 5));
             string[] convertDur = output.Substring(output.IndexOf("Duration: ") + 10, 11).Split(':');
@@ -276,7 +275,7 @@ namespace WebM_Converter
                 ffmpeg.StartInfo.CreateNoWindow = true;
                 ffmpeg.StartInfo.Arguments = string.Format("-y -ss {1} -i \"{0}\" -r 1 -f image2 -vf crop={2},scale={3} temp/preview.png", videoTextBox.Text, previewSlider.Value / 24, cropTextBox.Text, resolutionTextBox.Text);
                 ffmpeg.Start();
-                ffmpeg.WaitForExit(3000);
+                ffmpeg.WaitForExit();
                 FileStream f = File.OpenRead("temp/preview.png");
                 BitmapImage preview = new BitmapImage();
                 MemoryStream ms = new MemoryStream();
