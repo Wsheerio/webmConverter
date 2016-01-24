@@ -287,5 +287,24 @@ namespace WebM_Converter
                 previewImage.Source = preview;
             }
         }
+        private void VideoTextBox_Drop(object sender, DragEventArgs e)
+        {
+            if (e.Data.GetDataPresent(DataFormats.FileDrop))
+            { 
+                string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
+                videoTextBox.Text = files[0];
+                getVideoInfo();
+                changePreview();
+            }
+        }
+        private void SubtitlesTextBox_Drop(object sender, DragEventArgs e)
+        {
+            string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
+            subtitlesTextBox.Text = files[0];
+        }
+        private void DragOver(object sender, DragEventArgs e)
+        {
+            e.Handled = true;
+        }
     }
 }
