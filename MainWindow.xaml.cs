@@ -223,7 +223,8 @@ namespace WebM_Converter
             ffmpeg.Start();
             ffmpeg.WaitForExit(1000);
             string output = ffmpeg.StandardError.ReadToEnd();
-            fps = Convert.ToDouble(output.Substring(output.LastIndexOf("fps") - 6, 5));
+            output = output.Substring(0, output.LastIndexOf(" fps"));
+            fps = Convert.ToDouble(output.Substring(output.LastIndexOf(" ")));
             string[] convertDur = output.Substring(output.IndexOf("Duration: ") + 10, 11).Split(':');
             try
             {
