@@ -1,8 +1,6 @@
 WebM Converter
 =========
-[Hiroyuki](http://i0.kym-cdn.com/photos/images/original/001/022/132/df6.png)
-
-![Screenshot](https://d.maxfile.ro/mcmhxttayc.png)
+![Screenshot](https://a.pomf.cat/lojrig.png)
 Downloads
 =========
 The [release page](https://github.com/Wsheerio/webmConverter/releases) should have a build of the most recent version.
@@ -77,6 +75,14 @@ Crop
 This lets you crop a video\. The command looks like this, Width:Height:X:Y. Width is the width of the rectangle being cropped, height is the height, x and y are the coordinates of the rectangle being cropped. in_w and in_h grab the videos width and height respectively.
 
     500:500:10:10
+
+Saturation
+
+This lets you remove color from the output file, this is useful if you want to output to greyscale or remove a small amount of color to reduce the filesize. This can be a number from 0 to 1, 0 being greyscale and 1 being full color.
+
+    0
+    0.4324
+    1
 
 Use Internal Subs
 

@@ -32,6 +32,10 @@ namespace WebM_Converter
             {
                 Directory.CreateDirectory("temp");
             }
+            if (!Directory.Exists("temp/preview"))
+            {
+                Directory.CreateDirectory("temp/preview");
+            }
         }
         private void videoButton_Click(object sender, RoutedEventArgs e)
         {
@@ -64,20 +68,6 @@ namespace WebM_Converter
             {
                 outputTextBox.Text = browse.FileName;
             }
-        }
-        private void stopTimeButton_Click(object sender, RoutedEventArgs e)
-        {
-            if (Convert.ToString(stopTimeButton.Content) == "Stop Time")
-            {
-                stopTimeButton.Content = "Duration";
-                stoptimeTextBox.Text = getTime(getSeconds(stoptimeTextBox.Text) - getSeconds(starttimeTextBox.Text));
-            }
-            else
-            {
-                stopTimeButton.Content = "Stop Time";
-                stoptimeTextBox.Text = getTime(getSeconds(starttimeTextBox.Text) + getSeconds(stoptimeTextBox.Text));
-            }
-            changePreview();
         }
         private void goButton_Click(object sender, RoutedEventArgs e)
         {
@@ -121,14 +111,7 @@ namespace WebM_Converter
             }
             startTime = getSeconds(starttimeTextBox.Text);
             stopTime = getSeconds(stoptimeTextBox.Text);
-            if (Convert.ToString(stopTimeButton.Content) == "Duration")
-            {
-                duration = stopTime;
-            }
-            else
-            {
-                duration = stopTime - startTime;
-            }
+            duration = stopTime - startTime;
             if (startTime + duration > maxTime)
             {
                 MessageBox.Show("Times extend past video.");
@@ -143,10 +126,10 @@ namespace WebM_Converter
             ffmpeg.StartInfo.WindowStyle = ProcessWindowStyle.Normal;
             ffmpeg.StartInfo.RedirectStandardError = false;
             ffmpeg.StartInfo.CreateNoWindow = false;
-            ffmpeg.StartInfo.Arguments = string.Format("-y -ss {0} -t {1} -i \"{2}\" -vf setpts=PTS+{0}/TB{3},setpts=PTS-STARTPTS,crop={4},scale={5} {6} -b:v {7}k -b:a {8} -pass {9} \"{10}\"", startTime, duration, videoTextBox.Text, subtitles, cropTextBox.Text, resolutionTextBox.Text, rest, videoBitrate, audioBitrate, "1", outputTextBox.Text);
+            ffmpeg.StartInfo.Arguments = string.Format("-y -ss {0} -t {1} -i \"{2}\" -vf crop={4},scale={5},setpts=PTS+{0}/TB{3},setpts=PTS-STARTPTS,eq=saturation={11} {6} -b:v {7}k -b:a {8} -pass {9} \"{10}\"", startTime, duration, videoTextBox.Text, subtitles, cropTextBox.Text, resolutionTextBox.Text, rest, videoBitrate, audioBitrate, "1", outputTextBox.Text, saturationTextBox.Text);
             ffmpeg.Start();
             ffmpeg.WaitForExit();
-            ffmpeg.StartInfo.Arguments = string.Format("-y -ss {0} -t {1} -i \"{2}\" -vf setpts=PTS+{0}/TB{3},setpts=PTS-STARTPTS,crop={4},scale={5} {6} -b:v {7}k -b:a {8} -pass {9} \"{10}\"", startTime, duration, videoTextBox.Text, subtitles, cropTextBox.Text, resolutionTextBox.Text, rest, videoBitrate, audioBitrate, "2", outputTextBox.Text);
+            ffmpeg.StartInfo.Arguments = string.Format("-y -ss {0} -t {1} -i \"{2}\" -vf crop={4},scale={5},setpts=PTS+{0}/TB{3},setpts=PTS-STARTPTS,eq=saturation={11} {6} -b:v {7}k -b:a {8} -pass {9} \"{10}\"", startTime, duration, videoTextBox.Text, subtitles, cropTextBox.Text, resolutionTextBox.Text, rest, videoBitrate, audioBitrate, "2", outputTextBox.Text, saturationTextBox.Text);
             ffmpeg.Start();
             ffmpeg.WaitForExit();
         }
@@ -257,15 +240,7 @@ namespace WebM_Converter
             }
             else
             {
-                previewSlider.Minimum = Math.Truncate(getSeconds(starttimeTextBox.Text) * fps);
-                if (Convert.ToString(stopTimeButton.Content) == "Duration")
-                {
-                    previewSlider.Maximum = Math.Truncate((getSeconds(stoptimeTextBox.Text) + getSeconds(starttimeTextBox.Text)) * fps);
-                }
-                else
-                {
-                    previewSlider.Maximum = Math.Truncate((getSeconds(stoptimeTextBox.Text) - getSeconds(starttimeTextBox.Text)) * fps);
-                }
+                previewSlider.Maximum = Math.Truncate((getSeconds(stoptimeTextBox.Text) - getSeconds(starttimeTextBox.Text)) * fps);
                 if (previewSlider.Maximum > Math.Truncate(maxTime * fps))
                 {
                     previewSlider.Maximum = Math.Truncate(maxTime * fps);
@@ -274,10 +249,10 @@ namespace WebM_Converter
                 ffmpeg.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
                 ffmpeg.StartInfo.RedirectStandardError = false;
                 ffmpeg.StartInfo.CreateNoWindow = true;
-                ffmpeg.StartInfo.Arguments = string.Format("-y -ss {1} -i \"{0}\" -r 1 -f image2 -vf crop={2},scale={3} temp/preview.png", videoTextBox.Text, previewSlider.Value / 24, cropTextBox.Text, resolutionTextBox.Text);
+                ffmpeg.StartInfo.Arguments = string.Format("-y -ss {1} -i \"{0}\" -r 1 -f image2 -vf crop={2},scale={3},eq=saturation={4} temp/preview/preview.png", videoTextBox.Text, getSeconds(starttimeTextBox.Text) + previewSlider.Value / fps, cropTextBox.Text, resolutionTextBox.Text, saturationTextBox.Text);
                 ffmpeg.Start();
                 ffmpeg.WaitForExit();
-                FileStream f = File.OpenRead("temp/preview.png");
+                FileStream f = File.OpenRead("temp/preview/preview.png");
                 BitmapImage preview = new BitmapImage();
                 MemoryStream ms = new MemoryStream();
                 f.CopyTo(ms);
@@ -291,7 +266,7 @@ namespace WebM_Converter
         private void VideoTextBox_Drop(object sender, DragEventArgs e)
         {
             if (e.Data.GetDataPresent(DataFormats.FileDrop))
-            { 
+            {
                 string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
                 videoTextBox.Text = files[0];
                 getVideoInfo();
