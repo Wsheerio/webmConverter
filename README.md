@@ -78,7 +78,7 @@ This lets you crop a video\. The command looks like this, Width:Height:X:Y. Widt
 
 Saturation
 
-This lets you remove color from the output file, this is useful if you want to output to greyscale or remove a small amount of color to reduce the filesize. This can be a number from 0 to 1, 0 being greyscale and 1 being full color.
+This lets you remove color from the output file, this is useful if you want to output to greyscale or remove a small amount of color to reduce the filesize. Note that using this to reduce filesize will only work if the file is easily fittable within the size limit. This can be a number from 0 to 1, 0 being greyscale and 1 being full color.
 
     0
     0.4324
