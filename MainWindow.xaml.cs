@@ -99,9 +99,9 @@ namespace WebM_Converter
                 files = Directory.GetFiles(AppDomain.CurrentDomain.BaseDirectory);
                 for (int x = 0; x < files.Length; x++)
                 {
-                    if (files[x].Contains(".ttf"))
+                    if (files[x].ToLower().Contains(".ttf") || files[x].ToLower().Contains(".otf"))
                     {
-                        File.Move(files[x], string.Format("temp\\{0}.ttf", x));
+                        File.Move(files[x], "temp\\" + files[x].Split('\\')[files[x].Split('\\').Length-1]);
                     }
                 }
                 ffmpeg.StartInfo.Arguments = string.Format("-y -i \"{0}\" -c:s copy temp\\sub.ass", videoTextBox.Text);
