@@ -19,6 +19,8 @@ namespace WebM_Converter
         double startTime;
         double videoBitrate;
         string audioBitrate;
+        string audioOnly = "";
+        bool size = true;
         Process ffmpeg = new Process();
         string rest = "-c:v libvpx -c:a libvorbis -quality best -auto-alt-ref 1 -lag-in-frames 25 -slices 8 -cpu-used 1 -sn -threads " + Convert.ToString(Environment.ProcessorCount);
         public MainWindow()
@@ -69,6 +71,34 @@ namespace WebM_Converter
                 outputTextBox.Text = browse.FileName;
             }
         }
+        private void subSourceButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (subtitlesTextBox.IsEnabled)
+            {
+                subtitlesTextBox.IsEnabled = false;
+                subtitlesButton.IsEnabled = false;
+                subSourceButton.Content = "Internal";
+            }
+            else
+            {
+                subtitlesTextBox.IsEnabled = true;
+                subtitlesButton.IsEnabled = true;
+                subSourceButton.Content = "External";
+            }
+
+        }
+        private void sizeOrBitrateButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (size)
+            {
+                sizeOrBitrateButton.Content = "Bitrate";
+            }
+            else
+            {
+                sizeOrBitrateButton.Content = "Size Limit";
+            }
+            size = !size;
+        }
         private void goButton_Click(object sender, RoutedEventArgs e)
         {
             checkErrors();
@@ -78,7 +108,11 @@ namespace WebM_Converter
                 errors = "";
                 return;
             }
-            if (subtitlesTextBox.Text != "")
+            if (audioOnlyCheckBox.IsChecked == true)
+            {
+                audioOnly = "-vn";
+            }
+            if (subtitlesTextBox.Text != "" && subtitlesTextBox.IsEnabled)
             {
                 if (!File.Exists("sub.ass"))
                 {
@@ -86,7 +120,7 @@ namespace WebM_Converter
                 }
                 subtitles = ",ass=\"temp\\\\\\sub.ass\"";
             }
-            if (useinternalsubsTextBox.IsChecked == true)
+            if (subtitlesTextBox.IsEnabled == false)
             {
                 ffmpeg.StartInfo.Arguments = string.Format("-y -dump_attachment:t \"\" -i \"{0}\"", videoTextBox.Text);
                 ffmpeg.Start();
@@ -117,7 +151,14 @@ namespace WebM_Converter
                 MessageBox.Show("Times extend past video.");
                 return;
             }
-            videoBitrate = ((Convert.ToDouble(sizelimitTextBox.Text) * 8192 / duration) - Convert.ToDouble(audioTextBox.Text));
+            if (size)
+            {
+                videoBitrate = (Convert.ToDouble(sizelimitTextBox.Text) * 8192 / duration) - Convert.ToDouble(audioTextBox.Text);
+            }
+            else
+            {
+                videoBitrate = Convert.ToDouble(sizelimitTextBox.Text) * 8192;
+            }
             audioBitrate = audioTextBox.Text + "k";
             if (audioBitrate == "0k")
             {
@@ -126,12 +167,13 @@ namespace WebM_Converter
             ffmpeg.StartInfo.WindowStyle = ProcessWindowStyle.Normal;
             ffmpeg.StartInfo.RedirectStandardError = false;
             ffmpeg.StartInfo.CreateNoWindow = false;
-            ffmpeg.StartInfo.Arguments = string.Format("-y -ss {0} -t {1} -i \"{2}\" -vf crop={4},scale={5},setpts=PTS+{0}/TB{3},setpts=PTS-STARTPTS,eq=saturation={11} {6} -b:v {7}k -b:a {8} -pass {9} \"{10}\"", startTime, duration, videoTextBox.Text, subtitles, cropTextBox.Text, resolutionTextBox.Text, rest, videoBitrate, audioBitrate, "1", outputTextBox.Text, saturationTextBox.Text);
+            ffmpeg.StartInfo.Arguments = string.Format("-y -ss {0} -t {1} -i \"{2}\" -vf crop={4},scale={5},setpts=PTS+{0}/TB{3},setpts=PTS-STARTPTS,eq=saturation={11} {6} -b:v {7}k {12} -b:a {8} -pass {9} \"{10}\"", startTime, duration, videoTextBox.Text, subtitles, cropTextBox.Text, resolutionTextBox.Text, rest, videoBitrate, audioBitrate, "1", outputTextBox.Text, saturationTextBox.Text, audioOnly);
             ffmpeg.Start();
             ffmpeg.WaitForExit();
-            ffmpeg.StartInfo.Arguments = string.Format("-y -ss {0} -t {1} -i \"{2}\" -vf crop={4},scale={5},setpts=PTS+{0}/TB{3},setpts=PTS-STARTPTS,eq=saturation={11} {6} -b:v {7}k -b:a {8} -pass {9} \"{10}\"", startTime, duration, videoTextBox.Text, subtitles, cropTextBox.Text, resolutionTextBox.Text, rest, videoBitrate, audioBitrate, "2", outputTextBox.Text, saturationTextBox.Text);
+            ffmpeg.StartInfo.Arguments = string.Format("-y -ss {0} -t {1} -i \"{2}\" -vf crop={4},scale={5},setpts=PTS+{0}/TB{3},setpts=PTS-STARTPTS,eq=saturation={11} {6} -b:v {7}k {12} -b:a {8} -pass {9} \"{10}\"", startTime, duration, videoTextBox.Text, subtitles, cropTextBox.Text, resolutionTextBox.Text, rest, videoBitrate, audioBitrate, "2", outputTextBox.Text, saturationTextBox.Text, audioOnly);
             ffmpeg.Start();
             ffmpeg.WaitForExit();
+            audioOnly = "";
         }
         private void checkErrors()
         {

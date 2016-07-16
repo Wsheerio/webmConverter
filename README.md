@@ -22,7 +22,7 @@ Path of the input file.
 
 Subtitles
 
-Path of the subtitle file. Currently only supports .ass. Leave blank if you don't want subtitles.
+Path of the subtitle file. Currently only supports .ass. Leave blank if you don't want subtitles. Press the button to switch between external and internal subtitles. Using internal subs will only work with containers that support subtitles and files with only one subtitle track.
 
     C:\Users\Name\Videos\chinese cartoon.ass
     
@@ -47,9 +47,9 @@ Enter the duration/stop time in hh:mm:ss, clicking the button will change from d
     00:30:1471.163
     01:34:12.123
 
-Size limit
+Size Limit/Bitrate
 
-The maximum size allowed for the output in megabytes.
+The maximum size allowed for the output in megabytes or the bitrate, in MB/s, of the video.
 
     1
     2.5
@@ -84,9 +84,9 @@ This lets you remove color from the output file, this is useful if you want to o
     0.4324
     1
 
-Use Internal Subs
+Audio Only
 
-Using internal subs will only work with containers that support subtitles and files with only one subtitle track.
+Check this box to remove the video stream from the output.
 
 Image Preview
 
