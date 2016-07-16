@@ -1,6 +1,6 @@
 WebM Converter
 =========
-![Screenshot](https://a.pomf.cat/lojrig.png)
+![Screenshot](https://a.pomf.cat/dbvlng.png)
 Downloads
 =========
 The [release page](https://github.com/Wsheerio/webmConverter/releases) should have a build of the most recent version.
@@ -40,16 +40,16 @@ Enter the start time in seconds or hh:mm:ss.
     44
     00:43:54.901341
 
-Duration/Stop Time
+Stop Time
 
-Enter the duration/stop time in hh:mm:ss, clicking the button will change from duration to stop time.
+Enter the stop time in hh:mm:ss.
 
     00:30:1471.163
     01:34:12.123
 
 Size Limit/Bitrate
 
-The maximum size allowed for the output in megabytes or the bitrate, in MB/s, of the video.
+The maximum size allowed for the output in megabytes or the bitrate, in MB/s, of the video. {ress the button to switch between size limit and bitrate.
 
     1
     2.5
