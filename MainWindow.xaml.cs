@@ -17,7 +17,7 @@ namespace WebM_Converter
         double stopTime;
         string subtitles;
         double startTime;
-        double videoBitrate;
+        string videoBitrate;
         string audioBitrate;
         string audioOnly = "";
         bool size = true;
@@ -99,6 +99,14 @@ namespace WebM_Converter
             }
             size = !size;
         }
+        private void startButton_Click(object sender, RoutedEventArgs e)
+        {
+            previewSlider.Value = 0;
+        }
+        private void endButton_Click(object sender, RoutedEventArgs e)
+        {
+            previewSlider.Value = previewSlider.Maximum;
+        }
         private void goButton_Click(object sender, RoutedEventArgs e)
         {
             checkErrors();
@@ -153,11 +161,11 @@ namespace WebM_Converter
             }
             if (size)
             {
-                videoBitrate = (Convert.ToDouble(sizelimitTextBox.Text) * 8192 / duration) - Convert.ToDouble(audioTextBox.Text);
+                videoBitrate = Convert.ToString((Convert.ToDouble(sizelimitTextBox.Text) * 8192 / duration) - Convert.ToDouble(audioTextBox.Text)) + "k";
             }
             else
             {
-                videoBitrate = Convert.ToDouble(sizelimitTextBox.Text) * 8192;
+                videoBitrate = Convert.ToString(Convert.ToDouble(sizelimitTextBox.Text)) + "k -minrate " + Convert.ToString(Convert.ToDouble(sizelimitTextBox.Text)) + "k -maxrate " + Convert.ToString(Convert.ToDouble(sizelimitTextBox.Text)) + "k -bufsize 0k";
             }
             audioBitrate = audioTextBox.Text + "k";
             if (audioBitrate == "0k")
@@ -167,10 +175,10 @@ namespace WebM_Converter
             ffmpeg.StartInfo.WindowStyle = ProcessWindowStyle.Normal;
             ffmpeg.StartInfo.RedirectStandardError = false;
             ffmpeg.StartInfo.CreateNoWindow = false;
-            ffmpeg.StartInfo.Arguments = string.Format("-y -ss {0} -t {1} -i \"{2}\" -vf crop={4},scale={5},setpts=PTS+{0}/TB{3},setpts=PTS-STARTPTS,eq=saturation={11} {6} -b:v {7}k {12} -b:a {8} -pass {9} \"{10}\"", startTime, duration, videoTextBox.Text, subtitles, cropTextBox.Text, resolutionTextBox.Text, rest, videoBitrate, audioBitrate, "1", outputTextBox.Text, saturationTextBox.Text, audioOnly);
+            ffmpeg.StartInfo.Arguments = string.Format("-y -ss {0} -t {1} -i \"{2}\" -vf crop={4},scale={5},setpts=PTS+{0}/TB{3},setpts=PTS-STARTPTS,eq=saturation={11} {6} -b:v {7} {12} -b:a {8} -pass {9} \"{10}\"", startTime, duration, videoTextBox.Text, subtitles, cropTextBox.Text, resolutionTextBox.Text, rest, videoBitrate, audioBitrate, "1", outputTextBox.Text, saturationTextBox.Text, audioOnly);
             ffmpeg.Start();
             ffmpeg.WaitForExit();
-            ffmpeg.StartInfo.Arguments = string.Format("-y -ss {0} -t {1} -i \"{2}\" -vf crop={4},scale={5},setpts=PTS+{0}/TB{3},setpts=PTS-STARTPTS,eq=saturation={11} {6} -b:v {7}k {12} -b:a {8} -pass {9} \"{10}\"", startTime, duration, videoTextBox.Text, subtitles, cropTextBox.Text, resolutionTextBox.Text, rest, videoBitrate, audioBitrate, "2", outputTextBox.Text, saturationTextBox.Text, audioOnly);
+            ffmpeg.StartInfo.Arguments = string.Format("-y -ss {0} -t {1} -i \"{2}\" -vf crop={4},scale={5},setpts=PTS+{0}/TB{3},setpts=PTS-STARTPTS,eq=saturation={11} {6} -b:v {7} {12} -b:a {8} -pass {9} \"{10}\"", startTime, duration, videoTextBox.Text, subtitles, cropTextBox.Text, resolutionTextBox.Text, rest, videoBitrate, audioBitrate, "2", outputTextBox.Text, saturationTextBox.Text, audioOnly);
             ffmpeg.Start();
             ffmpeg.WaitForExit();
             audioOnly = "";
@@ -291,7 +299,7 @@ namespace WebM_Converter
                 ffmpeg.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
                 ffmpeg.StartInfo.RedirectStandardError = false;
                 ffmpeg.StartInfo.CreateNoWindow = true;
-                ffmpeg.StartInfo.Arguments = string.Format("-y -ss {1} -i \"{0}\" -r 1 -f image2 -vf crop={2},scale={3},eq=saturation={4} temp/preview/preview.png", videoTextBox.Text, getSeconds(starttimeTextBox.Text) + previewSlider.Value / fps, cropTextBox.Text, resolutionTextBox.Text, saturationTextBox.Text);
+                ffmpeg.StartInfo.Arguments = string.Format("-y -ss {1} -i \"{0}\" -r 1 -f image2 -vf crop={2},scale={3},eq=saturation={4} -threads " + Convert.ToString(Environment.ProcessorCount)  + " temp/preview/preview.png", videoTextBox.Text, getSeconds(starttimeTextBox.Text) + previewSlider.Value / fps, cropTextBox.Text, resolutionTextBox.Text, saturationTextBox.Text);
                 ffmpeg.Start();
                 ffmpeg.WaitForExit();
                 FileStream f = File.OpenRead("temp/preview/preview.png");

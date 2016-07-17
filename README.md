@@ -1,6 +1,9 @@
 WebM Converter
 =========
-![Screenshot](https://a.pomf.cat/dbvlng.png)
+
+**Bitrate is now entered as Kb/s, not MB/s.**
+
+![Screenshot](https://a.pomf.cat/mmrwpx.png)
 Downloads
 =========
 The [release page](https://github.com/Wsheerio/webmConverter/releases) should have a build of the most recent version.
@@ -49,7 +52,7 @@ Enter the stop time in hh:mm:ss.
 
 Size Limit/Bitrate
 
-The maximum size allowed for the output in megabytes or the bitrate, in MB/s, of the video. {ress the button to switch between size limit and bitrate.
+The maximum size in megabytes or the bitrate in **kb/s** of the output. Press the button to switch between size limit and bitrate.
 
     1
     2.5
@@ -84,10 +87,14 @@ This lets you remove color from the output file, this is useful if you want to o
     0.4324
     1
 
+Speed
+
+Adjust speed. Coming Soon™.
+
 Audio Only
 
 Check this box to remove the video stream from the output.
 
 Image Preview
 
-This lets you preview the output video, very useful for checking cropping. Subtitles are not shown.
+This lets you preview the output video, very useful for checking cropping. Subtitles are not shown. Start seeks to the beginning, End seeks to the end.
