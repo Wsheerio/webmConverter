@@ -20,7 +20,9 @@ namespace WebM_Converter
         string videoBitrate;
         string audioBitrate;
         string audioOnly = "";
+        string atempo;
         bool size = true;
+        bool audio = false;
         Process ffmpeg = new Process();
         string rest = "-c:v libvpx -c:a libvorbis -quality best -auto-alt-ref 1 -lag-in-frames 25 -slices 8 -cpu-used 1 -sn -threads " + Convert.ToString(Environment.ProcessorCount);
         public MainWindow()
@@ -103,12 +105,68 @@ namespace WebM_Converter
         {
             previewSlider.Value = 0;
         }
+        private void previewButton_Click(object sender, RoutedEventArgs e)
+        {
+            changePreview();
+        }
         private void endButton_Click(object sender, RoutedEventArgs e)
         {
             previewSlider.Value = previewSlider.Maximum;
         }
+        private void audVidOrAudButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (!audio)
+            {
+                audVidOrAudButton.Content = "Audio Only";
+                sizelimitTextBox.IsEnabled = false;
+                sizeOrBitrateButton.IsEnabled = false;
+                cropTextBox.IsEnabled = false;
+                resolutionTextBox.IsEnabled = false;
+                saturationTextBox.IsEnabled = false;
+                subSourceButton.IsEnabled = false;
+                subtitlesButton.IsEnabled = false;
+                subtitlesTextBox.IsEnabled = false;
+                audio = !audio;
+            }
+            else
+            {
+                audVidOrAudButton.Content = "Audio/Video";
+                sizelimitTextBox.IsEnabled = true;
+                sizeOrBitrateButton.IsEnabled = true;
+                cropTextBox.IsEnabled = true;
+                resolutionTextBox.IsEnabled = true;
+                saturationTextBox.IsEnabled = true;
+                subSourceButton.IsEnabled = true;
+                if (Convert.ToString(subSourceButton.Content) == "External")
+                {
+                    subtitlesButton.IsEnabled = true;
+                    subtitlesTextBox.IsEnabled = true;
+                }
+                audio = !audio;
+            }
+        }
         private void goButton_Click(object sender, RoutedEventArgs e)
         {
+            atempo = "atempo=1";
+            double aspeed = Convert.ToDouble(speedTextBox.Text);
+            if (aspeed > 2)
+            {
+                while (aspeed > 2)
+                {
+                    aspeed /= 2;
+                    atempo += ",atempo=2";
+                }
+                atempo += ",atempo=" + Convert.ToString(aspeed);
+            }
+            else if (aspeed < 0.5)
+            {
+                while (aspeed < 0.5)
+                {
+                    aspeed /= 0.5;
+                    atempo += ",atempo=0.5";
+                }
+                atempo += ",atempo=" + Convert.ToString(aspeed);
+            }
             checkErrors();
             if (errors != "")
             {
@@ -116,7 +174,7 @@ namespace WebM_Converter
                 errors = "";
                 return;
             }
-            if (audioOnlyCheckBox.IsChecked == true)
+            if (audio == true)
             {
                 audioOnly = "-vn";
             }
@@ -175,10 +233,10 @@ namespace WebM_Converter
             ffmpeg.StartInfo.WindowStyle = ProcessWindowStyle.Normal;
             ffmpeg.StartInfo.RedirectStandardError = false;
             ffmpeg.StartInfo.CreateNoWindow = false;
-            ffmpeg.StartInfo.Arguments = string.Format("-y -ss {0} -t {1} -i \"{2}\" -vf crop={4},scale={5},setpts=PTS+{0}/TB{3},setpts=PTS-STARTPTS,eq=saturation={11} {6} -b:v {7} {12} -b:a {8} -pass {9} \"{10}\"", startTime, duration, videoTextBox.Text, subtitles, cropTextBox.Text, resolutionTextBox.Text, rest, videoBitrate, audioBitrate, "1", outputTextBox.Text, saturationTextBox.Text, audioOnly);
+            ffmpeg.StartInfo.Arguments = string.Format("-y -ss {0} -t {1} -i \"{2}\" -vf crop={4},scale={5},setpts=PTS+{0}/TB{3},setpts=(PTS-STARTPTS)*(1/{14}),eq=saturation={11} -af {15} {6} -b:v {7} {12} -b:a {8} -metadata title=\"{13}\" -pass {9} \"{10}\"", startTime, duration, videoTextBox.Text, subtitles, cropTextBox.Text, resolutionTextBox.Text, rest, videoBitrate, audioBitrate, "1", outputTextBox.Text, saturationTextBox.Text, audioOnly, metadataTextBox.Text, speedTextBox.Text, atempo);
             ffmpeg.Start();
             ffmpeg.WaitForExit();
-            ffmpeg.StartInfo.Arguments = string.Format("-y -ss {0} -t {1} -i \"{2}\" -vf crop={4},scale={5},setpts=PTS+{0}/TB{3},setpts=PTS-STARTPTS,eq=saturation={11} {6} -b:v {7} {12} -b:a {8} -pass {9} \"{10}\"", startTime, duration, videoTextBox.Text, subtitles, cropTextBox.Text, resolutionTextBox.Text, rest, videoBitrate, audioBitrate, "2", outputTextBox.Text, saturationTextBox.Text, audioOnly);
+            ffmpeg.StartInfo.Arguments = string.Format("-y -ss {0} -t {1} -i \"{2}\" -vf crop={4},scale={5},setpts=PTS+{0}/TB{3},setpts=(PTS-STARTPTS)*(1/{14}),eq=saturation={11} -af {15} {6} -b:v {7} {12} -b:a {8} -metadata title=\"{13}\" -pass {9} \"{10}\"", startTime, duration, videoTextBox.Text, subtitles, cropTextBox.Text, resolutionTextBox.Text, rest, videoBitrate, audioBitrate, "2", outputTextBox.Text, saturationTextBox.Text, audioOnly, metadataTextBox.Text, speedTextBox.Text, atempo);
             ffmpeg.Start();
             ffmpeg.WaitForExit();
             audioOnly = "";
@@ -332,5 +390,6 @@ namespace WebM_Converter
         {
             e.Handled = true;
         }
+
     }
 }

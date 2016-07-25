@@ -35,6 +35,12 @@ Where you want to put the output file and what you want it to be named.
 
     C:\Users\Name\Videos\chinese cartoon.webm
 
+MetaData
+
+As of now only supports the title tag.
+
+    Saiki Kusuo
+
 Start Time
 
 Enter the start time in seconds or hh:mm:ss.
@@ -58,9 +64,9 @@ The maximum size in megabytes or the bitrate in **kb/s** of the output. Press th
     2.5
     3.12341
 
-Audio
+Audio/Video or Audio Only
 
-Enter the bitrate for audio in kilobits. Use "0" if you don't want sound.
+Enter the bitrate for audio in kilobits. Use "0" if you don't want sound. Pressing the button will produce a webm with only audio.
 
     32
     192
@@ -89,12 +95,12 @@ This lets you remove color from the output file, this is useful if you want to o
 
 Speed
 
-Adjust speed. Coming Soon™.
+Adjust the speed with a multiplier. As of now this works by dropping frames.
 
-Audio Only
-
-Check this box to remove the video stream from the output.
+    2
+    0.4
+    16
 
 Image Preview
 
-This lets you preview the output video, very useful for checking cropping. Subtitles are not shown. Start seeks to the beginning, End seeks to the end.
+This lets you preview the output video, very useful for checking cropping. Subtitles are not shown. Start seeks to the beginning, Preview refreshes, End seeks to the end.
