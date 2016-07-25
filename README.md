@@ -3,7 +3,7 @@ WebM Converter
 
 **Bitrate is now entered as Kb/s, not MB/s.**
 
-![Screenshot](https://a.pomf.cat/mmrwpx.png)
+![Screenshot](https://a.pomf.cat/bdsztg.png)
 Downloads
 =========
 The [release page](https://github.com/Wsheerio/webmConverter/releases) should have a build of the most recent version.
