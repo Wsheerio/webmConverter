@@ -24,7 +24,7 @@ namespace WebM_Converter
         bool size = true;
         bool audio = false;
         Process ffmpeg = new Process();
-        string rest = "-c:v libvpx -c:a libvorbis -quality best -auto-alt-ref 1 -lag-in-frames 25 -slices 8 -cpu-used 1 -sn -threads " + Convert.ToString(Environment.ProcessorCount);
+        string rest = "-c:v libvpx -c:a libopus -quality best -auto-alt-ref 1 -lag-in-frames 25 -slices 8 -cpu-used 1 -sn -threads " + Convert.ToString(Environment.ProcessorCount);
         public MainWindow()
         {
             InitializeComponent();
@@ -167,6 +167,10 @@ namespace WebM_Converter
                 }
                 atempo += ",atempo=" + Convert.ToString(aspeed);
             }
+            else
+            {
+                atempo = "atempo=" + speedTextBox.Text;
+            }
             checkErrors();
             if (errors != "")
             {
@@ -176,7 +180,7 @@ namespace WebM_Converter
             }
             if (audio == true)
             {
-                audioOnly = "-vn";
+                audioOnly = "-vn ";
             }
             if (subtitlesTextBox.Text != "" && subtitlesTextBox.IsEnabled)
             {
@@ -233,10 +237,10 @@ namespace WebM_Converter
             ffmpeg.StartInfo.WindowStyle = ProcessWindowStyle.Normal;
             ffmpeg.StartInfo.RedirectStandardError = false;
             ffmpeg.StartInfo.CreateNoWindow = false;
-            ffmpeg.StartInfo.Arguments = string.Format("-y -ss {0} -t {1} -i \"{2}\" -vf crop={4},scale={5},setpts=PTS+{0}/TB{3},setpts=(PTS-STARTPTS)*(1/{14}),eq=saturation={11} -af {15} {6} -b:v {7} {12} -b:a {8} -metadata title=\"{13}\" -pass {9} \"{10}\"", startTime, duration, videoTextBox.Text, subtitles, cropTextBox.Text, resolutionTextBox.Text, rest, videoBitrate, audioBitrate, "1", outputTextBox.Text, saturationTextBox.Text, audioOnly, metadataTextBox.Text, speedTextBox.Text, atempo);
+            ffmpeg.StartInfo.Arguments = string.Format("-y -ss {0} -t {1} -i \"{2}\" -vf crop={4},scale={5},setpts=PTS+{0}/TB{3},setpts=(PTS-STARTPTS)*(1/{14}),eq=saturation={11} -af {15} {6} -b:v {7} {12}-b:a {8} -metadata title=\"{13}\" -pass {9} \"{10}\"", startTime, duration, videoTextBox.Text, subtitles, cropTextBox.Text, resolutionTextBox.Text, rest, videoBitrate, audioBitrate, "1", outputTextBox.Text, saturationTextBox.Text, audioOnly, metadataTextBox.Text, speedTextBox.Text, atempo);
             ffmpeg.Start();
             ffmpeg.WaitForExit();
-            ffmpeg.StartInfo.Arguments = string.Format("-y -ss {0} -t {1} -i \"{2}\" -vf crop={4},scale={5},setpts=PTS+{0}/TB{3},setpts=(PTS-STARTPTS)*(1/{14}),eq=saturation={11} -af {15} {6} -b:v {7} {12} -b:a {8} -metadata title=\"{13}\" -pass {9} \"{10}\"", startTime, duration, videoTextBox.Text, subtitles, cropTextBox.Text, resolutionTextBox.Text, rest, videoBitrate, audioBitrate, "2", outputTextBox.Text, saturationTextBox.Text, audioOnly, metadataTextBox.Text, speedTextBox.Text, atempo);
+            ffmpeg.StartInfo.Arguments = string.Format("-y -ss {0} -t {1} -i \"{2}\" -vf crop={4},scale={5},setpts=PTS+{0}/TB{3},setpts=(PTS-STARTPTS)*(1/{14}),eq=saturation={11} -af {15} {6} -b:v {7} {12}-b:a {8} -metadata title=\"{13}\" -pass {9} \"{10}\"", startTime, duration, videoTextBox.Text, subtitles, cropTextBox.Text, resolutionTextBox.Text, rest, videoBitrate, audioBitrate, "2", outputTextBox.Text, saturationTextBox.Text, audioOnly, metadataTextBox.Text, speedTextBox.Text, atempo);
             ffmpeg.Start();
             ffmpeg.WaitForExit();
             audioOnly = "";
