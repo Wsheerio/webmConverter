@@ -6,7 +6,7 @@ Downloads
 =========
 The [release page](https://github.com/Wsheerio/webmConverter/releases) should have a build of the most recent version.
 
-You're going to need [ffmpeg](http://ffmpeg.zeranoe.com/builds/), I recommend grabbing one of the static builds.
+You're going to need [ffmpeg](http://ffmpeg.zeranoe.com/builds/)
 
 You also need [.NET Framework 4.0](https://www.microsoft.com/en-us/download/details.aspx?id=17851)
 
