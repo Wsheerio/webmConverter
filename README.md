@@ -1,8 +1,6 @@
 WebM Converter
 =========
 
-**Bitrate is now entered as Kb/s, not MB/s.**
-
 ![Screenshot](https://a.pomf.cat/bdsztg.png)
 Downloads
 =========
